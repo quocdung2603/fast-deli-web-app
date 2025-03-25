@@ -32,4 +32,18 @@ export const AdminSiteMenu: MenuItem[] = [
     submenu: null,
     isCollapse: false,
   },
+  {
+    content: "Shipper",
+    icon: <HomeOutlined />,
+    href: AdminRouterLink.Shipper,
+    submenu: null,
+    isCollapse: false,
+  },
+  {
+    content: "User",
+    icon: <HomeOutlined />,
+    href: AdminRouterLink.User,
+    submenu: null,
+    isCollapse: false,
+  },
 ];
