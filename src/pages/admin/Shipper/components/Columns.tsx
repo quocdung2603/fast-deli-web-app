@@ -1,30 +1,15 @@
-import { Warehouse } from "../../../../types/Order/Warehouse";
 import { Button, TableColumnsType } from "antd";
 import { Link } from "react-router-dom";
+import { Shipper } from "../../../../types/Shipper/Shipper";
 
 const Columns = (
-  showModalEdit: (isOpen: boolean, data: Warehouse) => void,
+  showModalEdit: (isOpen: boolean, data: Shipper) => void,
   showDeleteConfirm: (userId: string) => void
-): TableColumnsType<Warehouse> => [
+): TableColumnsType<Shipper> => [
   {
-    title: "Tên kho",
-    dataIndex: "name",
-    //filter
-    filters: [
-      {
-        text: "A",
-        value: "A",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    width: "25%",
+    title: "Têm đầy đủ",
+    dataIndex: "fullName",
     align: "center",
-    onFilter: (value, record) => record.name.startsWith(value as string),
-    //sorter
-    defaultSortOrder: "descend",
-    sorter: (a, b) => a.name.localeCompare(b.name),
-    //render
     render(value, record) {
       return (
         <Link to={`/profile/${record.id}`} className="underline text-center">
@@ -34,34 +19,33 @@ const Columns = (
     },
   },
   {
-    title: "Loại kho",
-    dataIndex: "type",
-    //filter
-    filters: [
-      {
-        text: "Kho trung chuyển",
-        value: "Kho trung chuyển",
-      },
-      {
-        text: "Kho cơ sở",
-        value: "Kho cơ sở",
-      },
-    ],
-    filterMode: "tree",
-    filterSearch: true,
-    width: "25%",
+    title: "Giói tính",
+    dataIndex: "gender",
     align: "center",
-    onFilter: (value, record) => record.type.startsWith(value as string),
-    //render
     render(value) {
       return <p>{value}</p>;
     },
   },
   {
-    title: "Vị trí kho",
-    dataIndex: "location",
+    title: "Địa chỉ mail",
+    dataIndex: "email",
     align: "center",
-    width: "25%",
+    render(value) {
+      return <p>{value}</p>;
+    },
+  },
+  {
+    title: "Số điện thoại",
+    dataIndex: "phoneNumber",
+    align: "center",
+    render(value) {
+      return <p>{value}</p>;
+    },
+  },
+  {
+    title: "Phương tiện",
+    dataIndex: "vehicle",
+    align: "center",
     render(value) {
       return <p>{value}</p>;
     },
@@ -70,7 +54,6 @@ const Columns = (
     title: "Chức năng",
     dataIndex: "action",
     align: "center",
-    width: "20%",
     render(_, record) {
       return (
         <div className="flex flex-row justify-center space-x-3">

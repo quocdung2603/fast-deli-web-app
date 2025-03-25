@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, notification } from "antd";
 import InputTypeString from "../../../../components/Input/InputTypeString";
-import { Warehouse } from "../../../../types/Order/Warehouse";
 import InputTypeSelect from "../../../../components/Input/InputTypeSelect";
 import InputTypeNumber from "../../../../components/Input/InputTypeNumber";
-interface CreateFormFields extends Warehouse {}
+import { Shipper } from "../../../../types/Shipper/Shipper";
+interface CreateFormFields extends Shipper {}
 
 type CreateEditArticleFormProps = {
   initForm?: CreateFormFields;
@@ -13,13 +13,24 @@ type CreateEditArticleFormProps = {
   closeModal: () => void;
 };
 
-const defaultFormValues = {
-  name: "",
-  type: "",
-  location: {
-    longitude: 0,
-    latitude: 0,
+const defaultFormValues: CreateFormFields = {
+  id: "",
+  userId: "",
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  gender: true,
+  address: "",
+  vehicle: {
+    name: "",
+    color: "",
+    licensePlateNumber: "",
+    typeVehicle: "",
   },
+  status: true,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  shipperArea: [],
 };
 
 const WarehouseType = [
@@ -87,36 +98,6 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
 
   return (
     <form method="POST" className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <InputTypeString
-        name="name"
-        control={control}
-        rules={{ required: "Tên kho không được để trống" }}
-        title="Tên kho"
-        placeholder="Nhập tên kho"
-      />
-      <InputTypeSelect
-        name="type"
-        control={control}
-        rules={{ required: "Vui lòng chọn loại kho" }}
-        title="Loại kho"
-        titleOption={WarehouseType}
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <InputTypeNumber
-          name="location.longitude"
-          control={control}
-          rules={{ required: "Kinh độ của kho không được để trống" }}
-          title="Kinh độ"
-          placeholder="Nhập kinh độ của kho"
-        />
-        <InputTypeNumber
-          name="location.latitude"
-          control={control}
-          rules={{ required: "Vĩ độ của kho không được để trống" }}
-          title="Vĩ độ"
-          placeholder="Nhập vĩ độ của kho"
-        />
-      </div>
       <div className="text-right">
         <Button
           type="primary"

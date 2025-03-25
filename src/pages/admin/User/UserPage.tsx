@@ -13,95 +13,74 @@ import { useEffect, useRef, useState } from "react";
 import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
-import { Order } from "../../../types/Order/Order";
+import { User } from "../../../types/User/User";
 
-const OrderStatusList = [
+const RoleList = [
   {
-    value: "PENDING",
-    label: "Chờ xác nhận",
+    label: "Admin",
+    value: "admin",
   },
   {
-    value: "CONFIRMED",
-    label: "Đã xác nhận",
+    label: "Manager",
+    value: "manager",
   },
   {
-    value: "SHIPPING",
-    label: "Đang giao hàng",
-  },
-  {
-    value: "DELIVERED",
-    label: "Đã giao hàng",
-  },
-  {
-    value: "CANCELLED",
-    label: "Đã hủy",
+    label: "User",
+    value: "user",
   },
 ];
 
-const OrderShippingStatusList = [
+const AccountStatusList = [
   {
-    value: "unassigned",
-    label: "Chưa chỉ định",
+    label: "Active",
+    value: "active",
   },
   {
-    value: "assigned",
-    label: "Đã chỉ định",
+    label: "Inactive",
+    value: "inactive",
+  },
+  {
+    label: "Banned",
+    value: "banned",
   },
 ];
 
-const OrderPage: React.FC = () => {
+const UserPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalEdit, setModalEdit] = useState<{
     isOpen: boolean;
-    data: undefined | Order;
+    data: undefined | User;
   }>({
     isOpen: false,
     data: undefined,
   });
 
-  const [listData, setListData] = useState<Order[]>(
+  const [listData, setListData] = useState<User[]>(
     Array.from({ length: 10 }, (_, i) => ({
-      id: `${i + 1}`,
-      userId: `User${i + 1}`,
-      orderCode: `Order Code ${i + 1}`,
-      senderAddress: "Sender Address",
-      reciverName: `Receiver ${i + 1}`,
-      reciverPhone: `012345678${i}`,
-      receiverAddress: "Receiver Address",
-      note: "Note",
-      weight: 1,
-      deliveryFee: 0,
-      imageUrls: [],
-      status:
-        i % 5 === 0
-          ? "PENDING"
-          : i % 5 === 1
-          ? "CONFIRMED"
-          : i % 5 === 2
-          ? "SHIPPING"
-          : i % 5 === 3
-          ? "DELIVERED"
-          : "CANCELLED",
-      createAt: moment().toDate(),
-      updateAt: moment().toDate(),
-      locationSender: {
-        latitude: 21.028511,
-        longitude: 105.804817,
-      },
-      locationReciver: {
-        latitude: 21.028511,
-        longitude: 105.804817,
-      },
+      userId: `${i + 1}`,
+      fullName: `User ${i + 1}`,
+      email: `user${i + 1}@gmail.com`,
+      phoneNumber: `012345678${i}`,
+      address: "Ha Noi",
+      role: "user",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      accountStatus:
+        i % 3 === 0 ? "active" : i % 3 === 1 ? "inactive" : "banned",
+      dateOfBirth: new Date(),
+      gender: i % 2 === 0, // Luân phiên true/false
+      nationality: "Viet Nam",
+      password: "defaultPassword",
     }))
   );
 
   const timeoutRef = useRef(setTimeout(() => {}, 0));
+  const [filteredData, setFilteredData] = useState<User[]>(listData);
 
-  const [filteredData, setFilteredData] = useState<Order[]>(listData);
   const [filters, setFilters] = useState({
-    orderStatus: "",
-    // orderState: "",
-    start: Date.now(),
+    role: "",
+    accountStatus: "",
+    start: 0,
     end: Date.now(),
     search: "",
     pageSize: 5,
@@ -109,25 +88,20 @@ const OrderPage: React.FC = () => {
   });
 
   useEffect(() => {
-    const filtered = listData.filter((item) => {
-      const isOrderStatusMatch =
-        !filters.orderStatus || item.status === filters.orderStatus;
-      // const isOrderStateMatch =
-      //   !filters.orderState || item. === filters.orderState;
-      const isSearchMatch = !filters.search
-        ? true
-        : item.orderCode.toLowerCase().includes(filters.search.toLowerCase()) ||
-          item.reciverName.toLowerCase().includes(filters.search.toLowerCase());
-      const isDateMatch = filters.start
-        ? new Date(item.createAt).getTime() >= filters.start &&
-          new Date(item.createAt).getTime() <= filters.end
+    const filtered = listData.filter((user) => {
+      const matchRole = filters.role ? user.role === filters.role : true;
+      const matchStatus = filters.accountStatus
+        ? user.accountStatus === filters.accountStatus
         : true;
-      return (
-        isOrderStatusMatch &&
-        // isOrderStateMatch &&
-        isSearchMatch &&
-        isDateMatch
-      );
+      const matchSearch = filters.search
+        ? user.fullName.toLowerCase().includes(filters.search.toLowerCase())
+        : true;
+      const matchDate = filters.start
+        ? new Date(user.createdAt).getTime() >= filters.start &&
+          new Date(user.createdAt).getTime() <= filters.end
+        : true;
+
+      return matchRole && matchStatus && matchSearch && matchDate;
     });
 
     setFilteredData(filtered);
@@ -158,7 +132,7 @@ const OrderPage: React.FC = () => {
     getAll();
   }, [filters]);
 
-  const onChange: TableProps<Order>["onChange"] = (pagination) => {
+  const onChange: TableProps<User>["onChange"] = (pagination) => {
     //refetch data
     setFilters((prev) => ({
       ...prev,
@@ -191,7 +165,21 @@ const OrderPage: React.FC = () => {
     }));
   };
 
-  const showModalEdit = (isOpen: boolean, data: Order) => {
+  const rowSelection: TableProps<User>["rowSelection"] = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: User[]) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        "selectedRows: ",
+        selectedRows
+      );
+    },
+    // getCheckboxProps: (record: User) => ({
+    //   disabled: record. === 'Disabled User', // Column configuration not to be checked
+    //   name: record.name,
+    // }),
+  };
+
+  const showModalEdit = (isOpen: boolean, data: User) => {
     setModalEdit({
       isOpen,
       data,
@@ -223,12 +211,53 @@ const OrderPage: React.FC = () => {
     });
   };
 
+  const showBanConnfirm = (_id: string) => {
+    confirm({
+      title: "Bạn có chắc muốn khóa tài khoản này không?",
+      content: "Bạn sẽ không thể khôi phục dữ liệu sau khi khóa!",
+      okText: "Khóa",
+      okType: "danger",
+      maskClosable: true,
+      closable: true,
+      onOk() {
+        // WarehouseServices.delete(_id)
+        //   .then(() => {
+        //     notification.success({ message: "Khóa thành công" });
+        //     getAll();
+        //     closeModal();
+        //   })
+        //   .catch(() => {
+        //     notification.error({
+        //       message: "Khóa thất bại ! Kiểm tra lại nha !",
+        //     });
+        //   });
+      },
+      cancelText: "Hủy",
+    });
+  };
+
   return (
     <div>
       <div className="flex items-center justify-end my-4 space-x-5">
-        <div className="flex flex-col space-y-2">
-          <p className="text-black text-sm font-bold text-start">
-            Tình trạng đơn hàng
+        <div className="flex flex-col space-y-2 ">
+          <p className="text-sm font-bold text-left text-black">Vai trò</p>
+          <Select
+            showSearch
+            style={{ width: 200 }}
+            placeholder="Search to Select"
+            optionFilterProp="label"
+            filterSort={(optionA, optionB) =>
+              (optionA?.label ?? "")
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? "").toLowerCase())
+            }
+            options={RoleList}
+            onChange={(value) => handleFilterChange("role", value)}
+          />
+        </div>
+        <div className="flex flex-col space-y-2 ">
+          <p className="text-sm font-bold text-left text-black">
+            Trạng thái tài khoản
           </p>
           <Select
             showSearch
@@ -240,30 +269,13 @@ const OrderPage: React.FC = () => {
                 .toLowerCase()
                 .localeCompare((optionB?.label ?? "").toLowerCase())
             }
-            options={OrderShippingStatusList}
+            options={AccountStatusList}
+            onChange={(value) => handleFilterChange("accountStatus", value)}
           />
         </div>
         <div className="flex flex-col space-y-2">
-          <p className="text-black text-sm font-bold text-start">
-            Trạng thái đơn hàng
-          </p>
-          <Select
-            showSearch
-            style={{ width: 200 }}
-            placeholder="Search to Select"
-            optionFilterProp="label"
-            filterSort={(optionA, optionB) =>
-              (optionA?.label ?? "")
-                .toLowerCase()
-                .localeCompare((optionB?.label ?? "").toLowerCase())
-            }
-            options={OrderStatusList}
-            onChange={(value) => handleFilterChange("orderStatus", value)}
-          />
-        </div>
-        <div className="flex flex-col space-y-2">
-          <p className="text-black text-sm font-bold text-start">
-            Thời gian tạo đơn
+          <p className="text-sm font-bold text-left text-black">
+            Ngày tạo tài khoản
           </p>
           <DatePicker.RangePicker
             placeholder={["", "Hôm nay"]}
@@ -272,8 +284,8 @@ const OrderPage: React.FC = () => {
           />
         </div>
         <div className="flex flex-col space-y-2">
-          <p className="text-black text-sm font-bold text-start">
-            Tìm kiếm đơn hàng
+          <p className="text-sm font-bold text-left text-black">
+            Tìm kiếm tài khoản
           </p>
           <Search
             placeholder="Tìm kiếm"
@@ -295,15 +307,16 @@ const OrderPage: React.FC = () => {
             className: "hidden",
           }}
         >
-          <CreateForm
+          {/* <CreateForm
             initForm={modalEdit.data}
             getAll={getAll}
             closeModal={closeModal}
-          />
+          /> */}
         </Modal>
       </div>
       <Table
-        columns={Columns(showModalEdit, showDeleteConfirm)}
+        rowSelection={{ type: "checkbox", ...rowSelection }}
+        columns={Columns(showModalEdit, showDeleteConfirm, showBanConnfirm)}
         dataSource={filteredData.map((item, index) => ({
           ...item,
           key: index,
@@ -318,4 +331,4 @@ const OrderPage: React.FC = () => {
   );
 };
 
-export default OrderPage;
+export default UserPage;

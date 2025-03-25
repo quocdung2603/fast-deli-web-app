@@ -15,4 +15,6 @@ export enum AdminRouterLink {
   Dashboard = "",
   Order = "order",
   Warehouse = "warehouse",
+  Shipper = "shipper",
+  User = "user",
 }

@@ -1,4 +1,3 @@
-import { Warehouse } from "../../../types/Order/Warehouse";
 import {
   Button,
   DatePicker,
@@ -13,18 +12,19 @@ import { useEffect, useRef, useState } from "react";
 import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
+import { Shipper } from "../../../types/Shipper/Shipper";
 
-const WarehousePage: React.FC = () => {
+const ShipperPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalEdit, setModalEdit] = useState<{
     isOpen: boolean;
-    data: undefined | Warehouse;
+    data: undefined | Shipper;
   }>({
     isOpen: false,
     data: undefined,
   });
 
-  const [listData, setListData] = useState<Warehouse[]>([]);
+  const [listData, setListData] = useState<Shipper[]>([]);
 
   const timeoutRef = useRef(setTimeout(() => {}, 0));
   const [filters, setFilters] = useState({
@@ -60,7 +60,7 @@ const WarehousePage: React.FC = () => {
     getAll();
   }, [filters]);
 
-  const onChange: TableProps<Warehouse>["onChange"] = (pagination) => {
+  const onChange: TableProps<Shipper>["onChange"] = (pagination) => {
     //refetch data
     setFilters((prev) => ({
       ...prev,
@@ -80,7 +80,7 @@ const WarehousePage: React.FC = () => {
     }, 1500);
   };
 
-  const showModalEdit = (isOpen: boolean, data: Warehouse) => {
+  const showModalEdit = (isOpen: boolean, data: Shipper) => {
     setModalEdit({
       isOpen,
       data,
@@ -175,4 +175,4 @@ const WarehousePage: React.FC = () => {
   );
 };
 
-export default WarehousePage;
+export default ShipperPage;
