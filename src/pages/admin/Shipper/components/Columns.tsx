@@ -43,11 +43,11 @@ const Columns = (
     },
   },
   {
-    title: "Phương tiện",
+    title: "Loại phương tiện",
     dataIndex: "vehicle",
     align: "center",
-    render(value) {
-      return <p>{value}</p>;
+    render(value, record) {
+      return <span>{record.vehicle.typeVehicle}</span>;
     },
   },
   {

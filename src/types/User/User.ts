@@ -22,3 +22,25 @@ type User = {
 };
 
 export { type User };
+
+export interface UserLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export interface UserLoginResponse {
+  code: number;
+  message: string;
+  data: any;
+}
+
+export interface UserInfoResponse {
+  code: number;
+  message: string;
+  data: User;
+}

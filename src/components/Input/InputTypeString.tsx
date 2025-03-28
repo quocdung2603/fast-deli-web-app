@@ -28,7 +28,7 @@ const InputTypeString = <T extends FieldValues>({
 
   return (
     <div className="w-full min-w-[200px] mb-5">
-      <label className="block mb-1 text-lg text-black font-medium">
+      <label className="block mb-1 text-sm text-black font-medium">
         {title}
       </label>
       <input

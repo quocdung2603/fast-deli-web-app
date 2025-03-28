@@ -13,6 +13,7 @@ import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
 import { Shipper } from "../../../types/Shipper/Shipper";
+import { ShipperServices } from "../../../services/Shipper/ShipperServices";
 
 const ShipperPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,9 +52,10 @@ const ShipperPage: React.FC = () => {
   };
 
   const getAll = async () => {
-    // WarehouseServices.getAll().then((res) => {
-    //   setListData(res.metadata.data);
-    // });
+    ShipperServices.getAll().then((res) => {
+      setListData(res.data);
+      console.log(res.data);
+    });
   };
 
   useEffect(() => {

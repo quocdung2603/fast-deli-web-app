@@ -7,13 +7,15 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import IMG_AVATAR from "../../../assets/img/avatar-1.png";
+import { useNavigate } from "react-router-dom";
 
 interface UserDropdownProps {
-  username: string;
+  username: string | undefined;
   onLogout: () => void;
 }
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ username, onLogout }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +40,9 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ username, onLogout }) => {
       key: "1",
       label: "Xem tất cả trang cá nhân",
       icon: <EyeOutlined />,
-      onClick: () => {},
+      onClick: () => {
+        navigate("/profile");
+      },
     },
     { key: "2", label: "Cài đặt & quyền riêng tư", icon: <SettingOutlined /> },
     { key: "3", label: "Trợ giúp & hỗ trợ", icon: <QuestionCircleOutlined /> },

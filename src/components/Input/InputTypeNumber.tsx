@@ -41,7 +41,7 @@ const InputTypeNumber = <T extends FieldValues>({
 
   return (
     <div className="w-full min-w-[200px] mb-5">
-      <label className="block mb-1 text-lg text-black font-medium">
+      <label className="block mb-1 text-sm text-black font-medium">
         {title}
       </label>
       <input
@@ -50,6 +50,7 @@ const InputTypeNumber = <T extends FieldValues>({
         onChange={handleChange} // Gọi hàm xử lý khi thay đổi
         className="w-full h-10 bg-gray-200 text-black text-sm border border-black rounded-3xl px-3 py-2 transition duration-300 ease focus:outline-none shadow-sm focus:shadow-md"
         placeholder={placeholder}
+        min="0" // Không cho nhập số âm
       />
       {error && <p className="text-red-500 text-sm">{error.message}</p>}
     </div>

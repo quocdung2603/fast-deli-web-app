@@ -19,7 +19,7 @@ const InputBraille:React.FC<inputBrailleProps> = ({className,nameLabel,type,valu
 				type={type || "text"}
 				value={value}
 				onChange={handleChange}
-				className="peer relative w-full border-small bg-transparent border-solid border-gray-600 border-opacity-30 focus:rounded focus:border-red focus:z-0 p-3 outline-none transitionHight z-1"
+				className="text-sm peer relative w-full border-small bg-transparent border-solid border-gray-600 border-opacity-30 focus:rounded focus:border-red focus:z-0 p-3 outline-none transitionHight z-1"
 			/>
 			<label
 				htmlFor=""

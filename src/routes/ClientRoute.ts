@@ -4,6 +4,7 @@ import AboutPage from "../pages/Client/About/AboutPage";
 import ServicePage from "../pages/Client/Services/ServicePage";
 import ContactPage from "../pages/Client/Contact/ContactPage";
 import OrderInfoPage from "../pages/Client/Order/OrderInfoPage";
+import Profile from "../pages/Client/Profile/Profile";
 export const ClientRoute = [
   {
     path: ClientRouterLink.Home,
@@ -24,5 +25,9 @@ export const ClientRoute = [
   {
     path: ClientRouterLink.OrderInfo,
     element: OrderInfoPage,
+  },
+  {
+    path: ClientRouterLink.Profile,
+    element: Profile,
   },
 ];

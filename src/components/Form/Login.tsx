@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IMG_ABOUT from "../../assets/img/about.jpg";
-import { AuthRouterLink } from "../../utils/RouterLink";
+import { AuthRouterLink, ClientRouterLink } from "../../utils/RouterLink";
+import { useAuth } from "../../common/context/AuthContext";
+import { UserLoginRequest } from "../../types/User/User";
 
 const Login = () => {
   const [captchaChecked, setCaptchaChecked] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onFinish = (values: any) => {
     console.log("Login data:", values);
+    const dataLogin: UserLoginRequest = {
+      email: values.email,
+      password: values.password,
+    };
+    login(dataLogin);
+    navigate(`${ClientRouterLink.Home}`);
   };
 
   return (
@@ -34,7 +44,7 @@ const Login = () => {
 
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
-              name="username"
+              name="email"
               label="Tài khoản"
               rules={[
                 {
