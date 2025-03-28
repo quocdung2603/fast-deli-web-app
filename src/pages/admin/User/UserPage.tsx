@@ -14,6 +14,7 @@ import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
 import { User } from "../../../types/User/User";
+import { UserServices } from "../../../services/User/UserServices";
 
 const RoleList = [
   {
@@ -21,8 +22,8 @@ const RoleList = [
     value: "admin",
   },
   {
-    label: "Manager",
-    value: "manager",
+    label: "Shipper",
+    value: "shipper",
   },
   {
     label: "User",
@@ -55,24 +56,26 @@ const UserPage: React.FC = () => {
     data: undefined,
   });
 
-  const [listData, setListData] = useState<User[]>(
-    Array.from({ length: 10 }, (_, i) => ({
-      userId: `${i + 1}`,
-      fullName: `User ${i + 1}`,
-      email: `user${i + 1}@gmail.com`,
-      phoneNumber: `012345678${i}`,
-      address: "Ha Noi",
-      role: "user",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      accountStatus:
-        i % 3 === 0 ? "active" : i % 3 === 1 ? "inactive" : "banned",
-      dateOfBirth: new Date(),
-      gender: i % 2 === 0, // Luân phiên true/false
-      nationality: "Viet Nam",
-      password: "defaultPassword",
-    }))
-  );
+  // const [listData, setListData] = useState<User[]>(
+  //   Array.from({ length: 10 }, (_, i) => ({
+  //     userId: `${i + 1}`,
+  //     fullName: `User ${i + 1}`,
+  //     email: `user${i + 1}@gmail.com`,
+  //     phoneNumber: `012345678${i}`,
+  //     address: "Ha Noi",
+  //     role: "user",
+  //     createdAt: new Date(),
+  //     updatedAt: new Date(),
+  //     accountStatus:
+  //       i % 3 === 0 ? "active" : i % 3 === 1 ? "inactive" : "banned",
+  //     dateOfBirth: new Date(),
+  //     gender: i % 2 === 0, // Luân phiên true/false
+  //     nationality: "Viet Nam",
+  //     password: "defaultPassword",
+  //   }))
+  // );
+
+  const [listData, setListData] = useState<User[]>([]);
 
   const timeoutRef = useRef(setTimeout(() => {}, 0));
   const [filteredData, setFilteredData] = useState<User[]>(listData);
@@ -123,9 +126,9 @@ const UserPage: React.FC = () => {
   };
 
   const getAll = async () => {
-    // WarehouseServices.getAll().then((res) => {
-    //   setListData(res.metadata.data);
-    // });
+    UserServices.getAll().then((res) => {
+      setListData(res.data);
+    });
   };
 
   useEffect(() => {

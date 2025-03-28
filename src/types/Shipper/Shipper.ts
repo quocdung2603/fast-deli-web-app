@@ -17,3 +17,9 @@ type Shipper = {
 };
 
 export { type Shipper };
+
+export interface ShipperResponse {
+  code: number;
+  message: string;
+  data: Shipper;
+}

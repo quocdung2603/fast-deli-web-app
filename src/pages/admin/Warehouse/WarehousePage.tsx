@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
+import { WarehouseServices } from "../../../services/Order/WarehouseServices";
 
 const WarehousePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,9 +52,10 @@ const WarehousePage: React.FC = () => {
   };
 
   const getAll = async () => {
-    // WarehouseServices.getAll().then((res) => {
-    //   setListData(res.metadata.data);
-    // });
+    WarehouseServices.getAll().then((res) => {
+      console.log(res.data);
+      setListData(res.data);
+    });
   };
 
   useEffect(() => {
@@ -155,11 +157,11 @@ const WarehousePage: React.FC = () => {
             className: "hidden",
           }}
         >
-          <CreateForm
+          {/* <CreateForm
             initForm={modalEdit.data}
             getAll={getAll}
             closeModal={closeModal}
-          />
+          /> */}
         </Modal>
       </div>
       <Table

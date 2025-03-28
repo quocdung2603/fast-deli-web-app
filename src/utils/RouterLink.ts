@@ -4,6 +4,7 @@ export enum ClientRouterLink {
   Services = "/services",
   Contact = "/contact",
   OrderInfo = "/order-information",
+  Profile = "/profile",
 }
 
 export enum AuthRouterLink {

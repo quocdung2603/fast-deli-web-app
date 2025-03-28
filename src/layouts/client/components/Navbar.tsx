@@ -5,13 +5,16 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { AuthRouterLink, ClientRouterLink } from "../../../utils/RouterLink";
 import OrderTrackingInput from "./OrderTrackingInput";
 import UserDropdown from "./UserDropdown";
+import { useAuth } from "../../../common/context/AuthContext";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { token, user, logout } = useAuth();
 
   const HandleOnLogout = () => {
     // Xử lý đăng xuất
+    logout();
   };
 
   return (
@@ -45,24 +48,30 @@ const Navbar: React.FC = () => {
           </Menu>
 
           {/* Đăng nhập / Đăng ký */}
-          {/* <div className="flex flex-row items-center">
-            <button
-              className="border rounded-tl-2xl rounded-bl-2xl py-2 px-1 bg-red-400 hover:bg-red-500 text-sm text-white"
-              onClick={() => navigate(`/auth/${AuthRouterLink.Login}`)}
-            >
-              Đăng nhập
-            </button>
-            <button
-              className="border rounded-tr-2xl rounded-br-2xl py-2 px-1 bg-red-400 hover:bg-red-500 text-sm text-white"
-              onClick={() => navigate(`/auth/${AuthRouterLink.Register}`)}
-            >
-              Đăng ký
-            </button>
-          </div> */}
-          <div className="flex flex-row items-center space-x-10">
-            <OrderTrackingInput />
-            <UserDropdown username="Nguyen Van A" onLogout={HandleOnLogout} />
-          </div>
+          {!token ? (
+            <div className="flex flex-row items-center">
+              <button
+                className="border rounded-tl-2xl rounded-bl-2xl py-2 px-1 bg-red-400 hover:bg-red-500 text-sm text-white"
+                onClick={() => navigate(`/auth/${AuthRouterLink.Login}`)}
+              >
+                Đăng nhập
+              </button>
+              <button
+                className="border rounded-tr-2xl rounded-br-2xl py-2 px-1 bg-red-400 hover:bg-red-500 text-sm text-white"
+                onClick={() => navigate(`/auth/${AuthRouterLink.Register}`)}
+              >
+                Đăng ký
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-row items-center space-x-10">
+              <OrderTrackingInput />
+              <UserDropdown
+                username={user?.fullName}
+                onLogout={HandleOnLogout}
+              />
+            </div>
+          )}
 
           {/* Số điện thoại */}
           <div className="flex items-center space-x-2">

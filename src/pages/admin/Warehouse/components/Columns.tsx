@@ -1,6 +1,7 @@
 import { Warehouse } from "../../../../types/Order/Warehouse";
 import { Button, TableColumnsType } from "antd";
 import { Link } from "react-router-dom";
+import { GeoPoint } from "../../../../types/GeoPoint";
 
 const Columns = (
   showModalEdit: (isOpen: boolean, data: Warehouse) => void,
@@ -58,13 +59,18 @@ const Columns = (
     },
   },
   {
-    title: "Vị trí kho",
+    title: "Vị trí",
     dataIndex: "location",
-    align: "center",
-    width: "25%",
-    render(value) {
-      return <p>{value}</p>;
-    },
+    render: (location: GeoPoint) => (
+      <a
+        href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline"
+      >
+        Xem trên Google Maps
+      </a>
+    ),
   },
   {
     title: "Chức năng",

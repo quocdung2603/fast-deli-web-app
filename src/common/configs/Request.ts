@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Tạo một instance axios với cấu hình mặc định
-export const request = axios.create({
+export const Request = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL, // URL từ file cấu hình môi trường
   timeout: 0, // Không giới hạn thời gian request
   headers: {
@@ -11,7 +11,7 @@ export const request = axios.create({
 });
 
 // Thêm interceptor để chèn token vào mỗi request nếu có
-request.interceptors.request.use(
+Request.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("Token");
     if (token) {
@@ -26,7 +26,7 @@ request.interceptors.request.use(
 );
 
 // Thêm interceptor để xử lý lỗi trả về từ server
-request.interceptors.response.use(
+Request.interceptors.response.use(
   (response) => {
     // Trả về response như bình thường nếu không có lỗi
     return response;
