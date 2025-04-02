@@ -11,7 +11,7 @@ type Order = {
   note: string;
   weight: number;
   deliveryFee: number;
-  imageUrls: Array<string>;
+  images: any;
   status: string;
   createAt: Date;
   updateAt: Date;

@@ -6,7 +6,8 @@ import InputTypeFile from "../../../../components/Input/InputTypeFile";
 import InputTypeString from "../../../../components/Input/InputTypeString";
 import InputTypeNumber from "../../../../components/Input/InputTypeNumber";
 import InputDescription from "../../../../components/Input/InputDescription";
-import { Button } from "antd";
+import { Button, notification } from "antd";
+import { OrderServices } from "../../../../services/Order/OrderServices";
 
 interface CreateFormFields extends Order {}
 
@@ -27,7 +28,7 @@ const defaultFormValues: CreateFormFields = {
   note: "",
   weight: 0,
   deliveryFee: 0,
-  imageUrls: [],
+  images: "",
   status: "",
   createAt: new Date(),
   updateAt: new Date(),
@@ -44,26 +45,27 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
     defaultValues: defaultFormValues,
   });
   const { user } = useAuth();
+  console.log("user", user);
 
   const onSubmit: SubmitHandler<CreateFormFields> = async (data) => {
-    console.log(JSON.stringify(data));
-    // try {
-    //   if (initForm) {
-    //     // await AssetServices.update(initForm.assetID.toString(), data);
-    //     // notification.success({ message: "Cập nhật thành công" });
-    //   } else {
-    //     if (user) {
-    //       // const dataReq = { ...data, userID: user?.id };
-    //       // await AssetServices.create(dataReq);
-    //       // notification.success({ message: "Thêm thành công" });
-    //     }
-    //   }
-    //   closeModal();
-    //   getAll();
-    //   reset(defaultFormValues);
-    // } catch (err) {
-    //   // notification.error({ message: "Có lỗi xảy ra, vui lòng kiểm tra lại!" });
-    // }
+    try {
+      if (initForm) {
+        await OrderServices.update(initForm.id.toString(), data);
+        notification.success({ message: "Cập nhật thành công" });
+      } else {
+        if (user) {
+          const dataReq = { ...data, userId: user?.userId, status: "Pending" };
+          await OrderServices.create(dataReq);
+          notification.success({ message: "Thêm thành công" });
+        }
+      }
+
+      closeModal();
+      getAll();
+      reset(defaultFormValues);
+    } catch (err) {
+      notification.error({ message: "Có lỗi xảy ra, vui lòng kiểm tra lại!" });
+    }
   };
 
   useEffect(() => {
@@ -82,11 +84,11 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
     >
       <h2 className="text-base font-bold text-center">Tạo đơn hàng</h2>
       <div className="w-full flex flex-row space-x-4">
-        <div className="w-1/2 h-[300px]">
+        <div className="w-1/2 h-[270px]">
           <InputTypeFile
-            name="imageUrls"
+            name="images"
             control={control}
-            rules={{ required: "Vui lòng chọn ảnh" }}
+            rules={{}}
             label="Chọn ảnh sản phẩm"
           />
         </div>
@@ -104,13 +106,6 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
             rules={{ required: "Phí giao hàng không được trống" }}
             title="Phí giao hàng"
             placeholder="Nhập phí giao hàng"
-          />
-          <InputTypeString
-            name="senderAddress"
-            control={control}
-            rules={{ required: "Địa chỉ người gửi không được trống" }}
-            title="Địa chỉ người gửi"
-            placeholder="Địa chỉa người gửi"
           />
         </div>
       </div>
@@ -137,17 +132,58 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
             rules={{ required: "Địa chỉ người nhận không được trống" }}
             title="Địa chỉ người nhận"
             placeholder="Nhập địa chỉ người nhận"
+            
+          />
+        </div>
+        <div className="w-full flex flex-row justify-between items-center space-x-10">
+          <InputTypeString
+            name="locationReciver.latitude"
+            control={control}
+            rules={{ required: "Phải nhập vĩ độ" }}
+            title="Vĩ độ người nhận"
+            placeholder="Nhập vĩ độ người nhận"
+          />
+          <InputTypeString
+            name="locationReciver.longitude"
+            control={control}
+            rules={{ required: "Phải nhập kinh độ" }}
+            title="Kinh độ người nhận"
+            placeholder="Nhập kinh độ người nhận"
           />
         </div>
       </div>
       <div className="w-full flex flex-col justify-between space-y-4 border p-2">
-        <p className="text-base">Ghi chú</p>
-        <InputDescription
+        <InputTypeString
+          name="senderAddress"
+          control={control}
+          rules={{ required: "Địa chỉ người gửi không được trống" }}
+          title="Địa chỉ người gửi"
+          placeholder="Địa chỉ người gửi"
+        />
+        <div className="w-full flex flex-row justify-between items-center space-x-10">
+          <InputTypeString
+            name="locationSender.latitude"
+            control={control}
+            rules={{ required: "Phải nhập vĩ độ" }}
+            title="Vĩ độ người nhận"
+            placeholder="Nhập vĩ độ người nhận"
+          />
+          <InputTypeString
+            name="locationSender.longitude"
+            control={control}
+            rules={{ required: "Phải nhập kinh độ" }}
+            title="Kinh độ người nhận"
+            placeholder="Nhập kinh độ người nhận"
+          />
+        </div>
+      </div>
+      <div className="w-full flex flex-col justify-between space-y-4 border p-2">
+        <InputTypeString
           name="note"
           control={control}
           rules={{}}
+          title="Ghi chú"
           placeholder="Nhập ghi chú"
-          defaultValue={"abcde"}
         />
       </div>
       <div className="text-right">

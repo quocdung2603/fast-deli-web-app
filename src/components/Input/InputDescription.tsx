@@ -1,17 +1,10 @@
-import {
-  useController,
-  FieldValues,
-  UseControllerProps,
-  Path,
-  PathValue,
-} from "react-hook-form";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { useController, FieldValues, UseControllerProps, Path, PathValue } from 'react-hook-form';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 
-interface InputDescriptionProps<T extends FieldValues>
-  extends UseControllerProps<T> {
+interface InputDescriptionProps<T extends FieldValues> extends UseControllerProps<T> {
   placeholder: string;
-  defaultValue?: PathValue<T, Path<T>>; // Cập nhật kiểu defaultValue
+  defaultValue?: PathValue<T, Path<T>>;  // Cập nhật kiểu defaultValue
 }
 
 const InputDescription = <T extends FieldValues>({
@@ -38,26 +31,41 @@ const InputDescription = <T extends FieldValues>({
         config={{
           toolbar: {
             items: [
-              "undo",
-              "redo",
-              "|",
-              "heading",
-              "|",
-              "fontSize",
-              "fontColor",
-              "fontBackgroundColor",
-              "|",
-              "bold",
-              "italic",
-              "strikethrough",
-              "|",
-              "alignment",
-              "link",
-              "blockQuote",
-              "codeBlock",
-              "|",
-              "bulletedList",
-              "numberedList",
+              'undo',
+              'redo',
+              '|',
+              'heading',
+              '|',
+              'fontSize',
+              'fontColor',
+              'fontBackgroundColor',
+              '|',
+              'bold',
+              'italic',
+              'strikethrough',
+              'subscript',
+              'superscript',
+              'code',
+              '-',
+              '|',
+              'alignment',
+              'link',
+              'imageUpload',
+              'blockQuote',
+              'codeBlock',
+              '|',
+              'bulletedList',
+              'numberedList',
+              'todoList',
+              'outdent',
+              'indent',
+            ],
+          },
+          image: {
+            toolbar: [
+              'imageTextAlternative',
+              'imageStyle:full',
+              'imageStyle:side',
             ],
           },
           placeholder: placeholder,

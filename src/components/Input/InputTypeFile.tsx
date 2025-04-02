@@ -15,25 +15,16 @@ const InputTypeFile = <T extends FieldValues>({
 }: InputTypeFileProps<T>) => {
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    value: string[],
-    onChange: (value: string[]) => void
+    onChange: (value: any) => void
   ) => {
-    const files = event.target.files;
-    if (files) {
-      const newImageUrls = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      onChange([...value, ...newImageUrls]); // Cập nhật danh sách ảnh
+    const file = event.target.files?.[0];
+    if (file) {
+      onChange(file); // Truyền file vào react-hook-form thay vì tên file
     }
   };
 
-  const handleRemoveFile = (
-    index: number,
-    value: string[],
-    onChange: (value: string[]) => void
-  ) => {
-    const updatedImages = value.filter((_, i) => i !== index);
-    onChange(updatedImages); // Cập nhật danh sách ảnh sau khi xóa
+  const handleRemoveFile = (onChange: (value: any) => void) => {
+    onChange(null); // Xóa file
   };
 
   return (
@@ -41,54 +32,52 @@ const InputTypeFile = <T extends FieldValues>({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { value = [], onChange }, fieldState: { error } }) => (
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
         <div className="relative">
           <label
-            htmlFor={name}
-            className="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-3 text-center"
+            htmlFor="dropzone-file"
+            className="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
           >
-            <MdDriveFolderUpload size={40} />
-            <h2 className="mt-4 text-base font-medium text-gray-700 tracking-wide">
-              {label}
-            </h2>
-            <p className="mt-2 text-gray-500 tracking-wide">
-              Upload or drag & drop your images (PNG, JPG, GIF).
-            </p>
-            <input
-              id={name}
-              type="file"
-              className="hidden"
-              multiple
-              accept="image/png, image/jpg, image/jpeg, image/gif"
-              onChange={(e) => handleFileChange(e, value, onChange)}
-            />
-          </label>
-
-          {/* Hiển thị danh sách ảnh */}
-
-          {error && <p className="text-red-500 text-sm">{error.message}</p>}
-          {value.length > 0 && (
-            <p className="text-green-500 text-sm">Files uploaded</p>
-          )}
-
-          <div className="mt-4 flex flex-wrap items-center gap-2 border h-24 overflow-x-auto">
-            {value.map((imgUrl: string, index: number) => (
-              <div key={index} className="relative w-20 h-20">
+            {value ? (
+              <div className="w-full text-center">
                 <img
-                  src={imgUrl}
-                  alt={`Uploaded ${index}`}
-                  className="w-full h-full object-cover rounded-lg"
+                  src={
+                    typeof value === "string"
+                      ? value
+                      : URL.createObjectURL(value)
+                  } // Kiểm tra kiểu dữ liệu
+                  alt="Selected file"
+                  className="w-48 h-48 object-cover mx-auto"
                 />
+                {/* <p className="text-gray-700">{value}</p> */}
                 <button
                   type="button"
-                  onClick={() => handleRemoveFile(index, value, onChange)}
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"
+                  onClick={() => handleRemoveFile(onChange)}
+                  className="mt-2 text-red-500"
                 >
-                  X
+                  Xóa ảnh
                 </button>
               </div>
-            ))}
-          </div>
+            ) : (
+              <>
+                <MdDriveFolderUpload size={40} />
+                <h2 className="mt-4 text-xl font-medium text-gray-700 tracking-wide">
+                  {label}
+                </h2>
+                <p className="mt-2 text-gray-500 tracking-wide">
+                  Upload or drag & drop your file SVG, PNG, JPG, or GIF.
+                </p>
+              </>
+            )}
+            <input
+              id="dropzone-file"
+              type="file"
+              className="hidden"
+              onChange={(e) => handleFileChange(e, onChange)} // Truyền hàm onChange vào
+            />
+          </label>
+          {error && <p className="text-red-500 text-sm">{error.message}</p>}
+          {value && <p className="text-green-500 text-sm">File uploaded</p>}
         </div>
       )}
     />
