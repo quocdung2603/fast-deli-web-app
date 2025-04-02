@@ -71,7 +71,7 @@ const OrderPage: React.FC = () => {
       note: "Note",
       weight: 1,
       deliveryFee: 0,
-      imageUrls: [],
+      images: [],
       status:
         i % 5 === 0
           ? "PENDING"

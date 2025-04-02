@@ -3,12 +3,14 @@ import Logo from "../../../assets/img/logo.png";
 import { AdminSiteMenu } from "../../../common/configs/AdminSiteMenu";
 import ItemNavBar from "./ItemNavBar";
 import { BulbOutlined, SettingOutlined } from "@ant-design/icons";
+import { useAuth } from "../../../common/context/AuthContext";
 
 interface CollapseProps {
   collapse: boolean;
 }
 
 const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
+  const {user} = useAuth();
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
 
   const handleMenuClick = (index: number) => {
@@ -74,8 +76,8 @@ const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
         />
         {collapse && (
           <div className="flex flex-col space-y-3">
-            <p className="text-black font-semibold">Admin</p>
-            <p className="text-gray-500 font-semibold">admin@abcauction.com</p>
+            <p className="text-black font-semibold text-sm">{user?.role}</p>
+            <p className="text-gray-500 font-semibold text-sm">{user?.fullName}</p>
           </div>
         )}
       </div>
