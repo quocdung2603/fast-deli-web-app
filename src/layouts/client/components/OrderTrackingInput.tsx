@@ -1,19 +1,12 @@
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ClientRouterLink } from "../../../utils/RouterLink";
 
 const OrderTrackingInput: React.FC = () => {
   const [orderCode, setOrderCode] = useState("");
-  const navigate = useNavigate();
-
   const handleSearch = () => {
-    navigate(`${ClientRouterLink.OrderInfo}`);
-    // if (orderCode.trim()) {
-    //   console.log("Tìm kiếm đơn hàng:", orderCode);
-    //   // Thực hiện API call để tra cứu đơn hàng tại đây
-    // }
+    const url = `/order-information/${orderCode}`;
+    window.open(url, "_blank");
   };
 
   return (

@@ -47,7 +47,7 @@ const InputTypeFile = <T extends FieldValues>({
                       : URL.createObjectURL(value)
                   } // Kiểm tra kiểu dữ liệu
                   alt="Selected file"
-                  className="w-48 h-48 object-cover mx-auto"
+                  className="w-36 h-36 object-cover mx-auto"
                 />
                 {/* <p className="text-gray-700">{value}</p> */}
                 <button

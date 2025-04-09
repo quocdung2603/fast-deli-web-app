@@ -18,10 +18,10 @@ export const OrderServices = {
   create: async (data: Order) => {
     const order = {
       userId: data.userId,
-      senderAdd: data.senderAddress,
+      senderAddress: data.senderAddress,
       reciverName: data.reciverName,
       reciverPhone: data.reciverPhone,
-      reciverAddress: data.receiverAddress,
+      receiverAddress: data.receiverAddress,
       weight: data.weight,
       deliveryFee: data.deliveryFee,
       status: data.status,
@@ -88,6 +88,11 @@ export const OrderServices = {
 
   update: async (id: string, data: Order) => {
     const res = await Request.put(`/orderservice/${id}`, data);
+    return res.data;
+  },
+
+  delete: async (id: string) => {
+    const res = await Request.delete(`/orderservice/${id}`);
     return res.data;
   },
 };

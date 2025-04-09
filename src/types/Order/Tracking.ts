@@ -13,3 +13,9 @@ type Tracking = {
 };
 
 export { type Tracking };
+
+export interface TrackingResponse {
+  code: number;
+  message: string;
+  data: Tracking[];
+}

@@ -3,7 +3,7 @@ export enum ClientRouterLink {
   About = "/about",
   Services = "/services",
   Contact = "/contact",
-  OrderInfo = "/order-information",
+  OrderInfo = `/order-information/:id`,
   Profile = "/profile",
 }
 

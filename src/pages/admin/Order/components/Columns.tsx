@@ -1,11 +1,11 @@
 import { Button, TableColumnsType } from "antd";
 import { Link } from "react-router-dom";
-import { Order } from "../../../../types/Order/Order";
+import { Order, OrderResponse } from "../../../../types/Order/Order";
 
 const Columns = (
-  showModalEdit: (isOpen: boolean, data: Order) => void,
+  showModalEdit: (isOpen: boolean, data: OrderResponse) => void,
   showDeleteConfirm: (userId: string) => void
-): TableColumnsType<Order> => [
+): TableColumnsType<OrderResponse> => [
   {
     title: "Mã đơn hàng",
     dataIndex: "orderCode",
