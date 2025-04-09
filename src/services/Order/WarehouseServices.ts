@@ -6,5 +6,8 @@ export const WarehouseServices = {
     return res.data;
   },
 
-  
+  getById: async (id: string) => {
+    const res = await Request.get(`/orderservice/warehouse/${id}`);
+    return res.data;
+  },
 };

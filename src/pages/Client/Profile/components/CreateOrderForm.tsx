@@ -54,7 +54,7 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
         notification.success({ message: "Cập nhật thành công" });
       } else {
         if (user) {
-          const dataReq = { ...data, userId: user?.userId, status: "Pending" };
+          const dataReq = { ...data, userId: user?.userId, status: "waiting" };
           await OrderServices.create(dataReq);
           notification.success({ message: "Thêm thành công" });
         }

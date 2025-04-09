@@ -13,28 +13,33 @@ import { useEffect, useRef, useState } from "react";
 import Columns from "./components/Columns";
 import CreateForm from "./components/CreateForm";
 import moment from "moment";
-import { Order } from "../../../types/Order/Order";
+import {
+  Order,
+  OrderResponse,
+  OrderResponseId,
+} from "../../../types/Order/Order";
+import { OrderServices } from "../../../services/Order/OrderServices";
 
 const OrderStatusList = [
   {
-    value: "PENDING",
-    label: "Chờ xác nhận",
+    value: "waiting",
+    label: "Waiting",
   },
   {
-    value: "CONFIRMED",
-    label: "Đã xác nhận",
+    value: "pending",
+    label: "Pending",
   },
   {
-    value: "SHIPPING",
-    label: "Đang giao hàng",
+    value: "shipping",
+    label: "Shipping",
   },
   {
-    value: "DELIVERED",
-    label: "Đã giao hàng",
+    value: "complete",
+    label: "Completed",
   },
   {
-    value: "CANCELLED",
-    label: "Đã hủy",
+    value: "canceled",
+    label: "Canceled",
   },
 ];
 
@@ -53,51 +58,17 @@ const OrderPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalEdit, setModalEdit] = useState<{
     isOpen: boolean;
-    data: undefined | Order;
+    data: undefined | any;
   }>({
     isOpen: false,
     data: undefined,
   });
 
-  const [listData, setListData] = useState<Order[]>(
-    Array.from({ length: 10 }, (_, i) => ({
-      id: `${i + 1}`,
-      userId: `User${i + 1}`,
-      orderCode: `Order Code ${i + 1}`,
-      senderAddress: "Sender Address",
-      reciverName: `Receiver ${i + 1}`,
-      reciverPhone: `012345678${i}`,
-      receiverAddress: "Receiver Address",
-      note: "Note",
-      weight: 1,
-      deliveryFee: 0,
-      images: [],
-      status:
-        i % 5 === 0
-          ? "PENDING"
-          : i % 5 === 1
-          ? "CONFIRMED"
-          : i % 5 === 2
-          ? "SHIPPING"
-          : i % 5 === 3
-          ? "DELIVERED"
-          : "CANCELLED",
-      createAt: moment().toDate(),
-      updateAt: moment().toDate(),
-      locationSender: {
-        latitude: 21.028511,
-        longitude: 105.804817,
-      },
-      locationReciver: {
-        latitude: 21.028511,
-        longitude: 105.804817,
-      },
-    }))
-  );
+  const [listData, setListData] = useState<OrderResponse[]>([]);
 
   const timeoutRef = useRef(setTimeout(() => {}, 0));
 
-  const [filteredData, setFilteredData] = useState<Order[]>(listData);
+  const [filteredData, setFilteredData] = useState<OrderResponse[]>(listData);
   const [filters, setFilters] = useState({
     orderStatus: "",
     // orderState: "",
@@ -149,16 +120,20 @@ const OrderPage: React.FC = () => {
   };
 
   const getAll = async () => {
-    // WarehouseServices.getAll().then((res) => {
-    //   setListData(res.metadata.data);
-    // });
+    const req: OrderResponseId = await OrderServices.getAll();
+    console.log("req", req.data);
+    setListData(req.data);
   };
 
   useEffect(() => {
     getAll();
   }, [filters]);
 
-  const onChange: TableProps<Order>["onChange"] = (pagination) => {
+  useEffect(() => {
+    setFilteredData(listData);
+  }, [listData]);
+
+  const onChange: TableProps<OrderResponse>["onChange"] = (pagination) => {
     //refetch data
     setFilters((prev) => ({
       ...prev,
@@ -191,14 +166,14 @@ const OrderPage: React.FC = () => {
     }));
   };
 
-  const showModalEdit = (isOpen: boolean, data: Order) => {
+  const showModalEdit = (isOpen: boolean, data: any) => {
     setModalEdit({
       isOpen,
       data,
     });
   };
 
-  const showDeleteConfirm = (_id: string) => {
+  const showDeleteConfirm = (id: string) => {
     confirm({
       title: "Bạn có chắc muốn xóa dữ liệu này?",
       content: "Bạn sẽ không thể khôi phục dữ liệu sau khi xóa!",
@@ -207,17 +182,17 @@ const OrderPage: React.FC = () => {
       maskClosable: true,
       closable: true,
       onOk() {
-        // WarehouseServices.delete(_id)
-        //   .then(() => {
-        //     notification.success({ message: "Xóa thành công" });
-        //     getAll();
-        //     closeModal();
-        //   })
-        //   .catch(() => {
-        //     notification.error({
-        //       message: "Xóa thất bại ! Kiểm tra lại nha !",
-        //     });
-        //   });
+        OrderServices.delete(id)
+          .then(() => {
+            notification.success({ message: "Xóa thành công" });
+            getAll();
+            closeModal();
+          })
+          .catch(() => {
+            notification.error({
+              message: "Xóa thất bại ! Kiểm tra lại nha !",
+            });
+          });
       },
       cancelText: "Hủy",
     });
@@ -284,7 +259,7 @@ const OrderPage: React.FC = () => {
         </div>
         <Button onClick={showModal}>Thêm mới</Button>
         <Modal
-          width={800}
+          width={1000}
           title={modalEdit.isOpen ? "Sửa Thông tin" : "Thêm mới thông tin"}
           open={isModalOpen || modalEdit.isOpen}
           onCancel={closeModal}

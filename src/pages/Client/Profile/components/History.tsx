@@ -70,9 +70,9 @@ const History = () => {
 
   return (
     <div className="p-6 w-full">
-      <h1 className="text-2xl font-semibold mb-4">Lịch sử đấu giá</h1>
+      <h1 className="text-2xl font-semibold mb-4">Lịch sử</h1>
       {historyEntries.length === 0 ? (
-        <p className="text-gray-500">Không có lịch sử đấu giá nào.</p>
+        <p className="text-gray-500">Không có lịch sử nào.</p>
       ) : (
         <div className="space-y-4">
           {historyEntries.map((entry) => (

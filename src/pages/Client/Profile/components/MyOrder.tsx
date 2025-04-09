@@ -3,10 +3,17 @@ import { Button, Modal } from "antd";
 import CreateOrderForm from "./CreateOrderForm";
 import { useAuth } from "../../../../common/context/AuthContext";
 import { OrderServices } from "../../../../services/Order/OrderServices";
-import { Order } from "../../../../types/Order/Order";
+import {
+  Order,
+  OrderResponse,
+  OrderResponseId,
+} from "../../../../types/Order/Order";
+import UpdateOrderForm from "./UpdateOrderForm";
+import { Link } from "react-router-dom";
+import { ClientRouterLink } from "../../../../utils/RouterLink";
 
 const MyOrder = () => {
-  const [listData, setListData] = useState<Order[]>([]);
+  const [listData, setListData] = useState<any[]>([]);
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalEdit, setModalEdit] = useState({
@@ -36,10 +43,9 @@ const MyOrder = () => {
   };
 
   const getAll = async () => {
-    OrderServices.getAll().then((res) => {
-      setListData(res.data);
-      //console.log(res.data);
-    });
+    const req: OrderResponseId = await OrderServices.getAll();
+    setListData(req.data);
+    console.log("req", req.data);
   };
 
   useEffect(() => {
@@ -76,38 +82,44 @@ const MyOrder = () => {
         cancelButtonProps={{ className: "hidden" }}
         okButtonProps={{ className: "hidden" }}
       >
-        <p>ALO</p>
-        {/* <UpdateForm initForm={modalEdit.data} closeModal={closeModal} /> */}
+        <UpdateOrderForm
+          initForm={modalEdit.data}
+          closeModal={closeModal}
+          getAll={getAll}
+        />
       </Modal>
       {listData.length === 0 ? (
         <p className="text-gray-500 text-sm">Chưa có sản phẩm nào được gửi</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {listData.map((item) => (
-            <div
+            <Link
+              to={`/order-information/${item.id}`}
+              target="_blank"
               key={item.id}
               className="border rounded-lg overflow-hidden bg-white shadow-md flex flex-col"
             >
               <img
-                src={item.images}
+                src={`${import.meta.env.VITE_KEY_IMAGEURL}${item.imageUrls[0]}`}
                 alt={`Mã đơn: ${item.orderCode}`}
-                className="w-full h-48 object-cover"
+                className="w-full h-36 object-cover"
               />
-              <div className="p-4">
-                {/* <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  {asset.assetName}
-                </h3> */}
-                <p className="text-gray-600">
-                  Trạng thái: {/* Ignore spell-check */}
-                  <span className="font-bold text-blue-500">{item.status}</span>
-                </p>
-                <p className="text-gray-600">
-                  Giá: {item.deliveryFee.toString()} VNĐ
-                </p>
-                {item.status !== "available" && (
-                  <div className="flex justify-end">
+              <div className="p-4 flex flex-row justify-center items-center">
+                <div className="flex flex-col flex-start w-3/4">
+                  <p className="text-gray-600 text-sm">
+                    Trạng thái: {/* Ignore spell-check */}
+                    <span className="font-bold text-blue-500">
+                      {item.status}
+                    </span>
+                  </p>
+                  <p className="text-gray-600 text-sm">
+                    Giá: {item.deliveryFee.toString()} VNĐ
+                  </p>
+                </div>
+                {(item.status === "waiting" || item.status === "canceled") && (
+                  <div className="w-1/4">
                     <Button
-                      className="bg-red text-white"
+                      className="bg-red-500 text-white"
                       onClick={() => showModalEdit(true, item)}
                     >
                       Edit
@@ -115,7 +127,7 @@ const MyOrder = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
