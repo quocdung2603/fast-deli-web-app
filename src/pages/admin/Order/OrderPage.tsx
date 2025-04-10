@@ -21,6 +21,7 @@ import L from "leaflet";
 import { TrackingServices } from "../../../services/Order/TrackingServices";
 import { Tracking, TrackingResponse } from "../../../types/Order/Tracking";
 import OrderTrackingColumns from "./components/OrderTrackingColumns";
+import MapEffect from "../../../components/Map/MapEffect";
 
 const mapContainerStyle = {
   width: "100%",
@@ -150,7 +151,7 @@ const OrderPage: React.FC = () => {
 
   const getAll = async () => {
     const req: OrderResponseId = await OrderServices.getAll();
-    console.log("req", req.data);
+    //console.log("req", req.data);
     setListData(req.data);
   };
 
@@ -180,7 +181,7 @@ const OrderPage: React.FC = () => {
       setOrdersAtCurrentLocation(filteredTrackingData);
 
       // ✅ In tại đây thay vì sau setState
-      //console.log("✅ filteredTrackingData:", filteredTrackingData);
+      console.log("✅ filteredTrackingData:", filteredTrackingData);
     } catch (err) {
       console.error("❌ Lỗi lấy dữ liệu tracking:", err);
     }
@@ -376,6 +377,18 @@ const OrderPage: React.FC = () => {
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapEffect
+              markers={
+                selectedLocation
+                  ? [
+                      {
+                        latitude: selectedLocation.lat,
+                        longitude: selectedLocation.lng,
+                      },
+                    ]
+                  : []
+              }
             />
             {ordersAtCurrentLocation.map((pos) => (
               <Marker

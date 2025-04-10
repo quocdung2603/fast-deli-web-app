@@ -18,6 +18,7 @@ import { UserServices } from "../../../services/User/UserServices";
 import { MapContainer, Marker, Polygon, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import { OrderShipperServices } from "../../../services/Shipper/OrderShipperServices";
+import MapEffect from "../../../components/Map/MapEffect";
 
 const mapContainerStyle = {
   width: "100%",
@@ -231,6 +232,7 @@ const ShipperPage: React.FC = () => {
                 icon={customIcon}
               ></Marker>
             ))}
+            <MapEffect markers={shipperAreaLocation} />
             {shipperAreaLocation.length >= 3 && (
               <Polygon
                 positions={shipperAreaLocation.map((pos) => [
