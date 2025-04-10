@@ -23,7 +23,7 @@ const Columns = (
     dataIndex: "gender",
     align: "center",
     render(value) {
-      return <p>{value}</p>;
+      return <p>{value ? "Nam" : "Nữ"}</p>;
     },
   },
   {

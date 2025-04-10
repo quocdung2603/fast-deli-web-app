@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { Controller, Control, FieldValues, UseControllerProps, useController } from "react-hook-form";
+import {
+  useController,
+  UseControllerProps,
+  FieldValues,
+} from "react-hook-form";
 
 interface Options {
   value: any;
@@ -18,37 +22,32 @@ const InputTypeSelect = <T extends FieldValues>({
   titleOption,
   rules,
 }: InputTypeSelectProps<T>) => {
-  const [searchTerm, setSearchTerm] = useState(""); // Trạng thái tìm kiếm
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Trạng thái mở/đóng dropdown
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const {
     field: { value, onChange },
     fieldState: { error },
-  } = useController<T>({
-    name,
-    control,
-    rules,
-  });
+  } = useController<T>({ name, control, rules });
 
-  // Lọc các option dựa trên từ khóa tìm kiếm
   const filteredOptions = titleOption.filter((option) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const selectedLabel = titleOption.find((option) => option.value === value)?.label;
 
   return (
     <div className="relative w-full min-w-[200px] mb-5">
       <label className="block mb-1 text-lg text-black font-medium">{title}</label>
       <div
         className="w-full h-10 bg-gray-200 text-black text-sm border border-black rounded-3xl px-3 py-2 transition duration-300 ease focus:outline-none shadow-sm focus:shadow-md cursor-pointer"
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        {value
-          ? titleOption.find((option) => option.value === value)?.label || "Chọn..."
-          : "Chọn..."}
+        {selectedLabel || "Chọn..."}
       </div>
+
       {isDropdownOpen && (
         <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-          {/* Input tìm kiếm */}
           <div className="p-2">
             <input
               type="text"
@@ -58,27 +57,29 @@ const InputTypeSelect = <T extends FieldValues>({
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          {/* Danh sách các option */}
-          {filteredOptions.map((item, index) => (
-            <div
-              key={index}
-              className={`px-3 py-2 cursor-pointer hover:bg-[#FB9400] ${
-                value === item.value ? "bg-gray-200" : ""
-              }`}
-              onClick={() => {
-                onChange(item.value); // Cập nhật giá trị đã chọn
-                setIsDropdownOpen(false); // Đóng dropdown
-                setSearchTerm(""); // Xóa từ khóa tìm kiếm
-              }}
-            >
-              {item.label}
-            </div>
-          ))}
-          {filteredOptions.length === 0 && (
-            <div className="px-3 py-2 text-red">Không có kết quả</div>
+
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((item, index) => (
+              <div
+                key={index}
+                className={`px-3 py-2 cursor-pointer hover:bg-[#FB9400] ${
+                  value === item.value ? "bg-gray-200" : ""
+                }`}
+                onClick={() => {
+                  onChange(item.value);
+                  setIsDropdownOpen(false);
+                  setSearchTerm("");
+                }}
+              >
+                {item.label}
+              </div>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-red-500">Không có kết quả</div>
           )}
         </div>
       )}
+
       {error && <p className="text-red-500 text-sm">{error.message}</p>}
     </div>
   );
