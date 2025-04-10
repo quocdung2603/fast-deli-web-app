@@ -4,7 +4,7 @@ interface InputTypeBooleanProps {
   setContent: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const inputTypeBoolean: React.FC<InputTypeBooleanProps> = ({ title, content, setContent }) => {
+const InputTypeBoolean: React.FC<InputTypeBooleanProps> = ({ title, content, setContent }) => {
 return (
   <div className='w-full min-w-[200px] mb-5'>
     <label className='block mb-1 text-lg text-black font-medium'>
@@ -22,4 +22,4 @@ return (
 );
 };
 
-export default inputTypeBoolean;
+export default InputTypeBoolean;

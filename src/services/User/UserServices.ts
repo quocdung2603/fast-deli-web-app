@@ -23,5 +23,13 @@ export const UserServices = {
     return response.data;
   },
 
+  update: async (id: string, data: any) => {
+    const response = await Request.put(`/userservice/${id}`, data);
+    return response.data;
+  },
 
+  delete: async (id: string) => {
+    const response = await Request.delete(`/userservice/${id}`);
+    return response.data;
+  },
 };

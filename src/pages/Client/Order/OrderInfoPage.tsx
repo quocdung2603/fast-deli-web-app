@@ -4,9 +4,24 @@ import { useParams } from "react-router-dom";
 import { Tracking, TrackingResponse } from "../../../types/Order/Tracking";
 import { TrackingServices } from "../../../services/Order/TrackingServices";
 import formatDateTime from "../../../utils/FormatDateTime";
-import { OrderResponseId, OrderResponseInfo } from "../../../types/Order/Order";
+import { OrderResponseInfo } from "../../../types/Order/Order";
 import { OrderServices } from "../../../services/Order/OrderServices";
-import { set } from "react-hook-form";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
+
+const mapContainerStyle = {
+  width: "100%",
+  height: "500px",
+};
+
+const center = { lat: 14.0583, lng: 108.2772 };
+
+const customIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/64/2776/2776067.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 
 const columns: TableColumnsType<Tracking> = [
   {
@@ -33,6 +48,21 @@ const columns: TableColumnsType<Tracking> = [
     render: (_, record) => (
       <span className="font-semibold">{record.description}</span>
     ),
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "status",
+    render: (_, record) => {
+      if (record.status === "ready") {
+        return <Tag color="green">Đã lấy hàng</Tag>;
+      } else if (record.status === "shipping") {
+        return <Tag color="blue">Đang giao hàng</Tag>;
+      } else if (record.status === "delivered") {
+        return <Tag color="red">Đã giao hàng</Tag>;
+      } else {
+        return <Tag color="default">Không xác định</Tag>; // fallback
+      }
+    },
   },
 ];
 
@@ -93,7 +123,7 @@ const OrderInfoPage: React.FC = () => {
       )}
       <div className="bg-gray-100 flex flex-row max-w-7xl mx-auto space-x-5">
         {/* Lịch sử đơn hàng */}
-        <div className="w-2/3 mb-10">
+        <div className="w-3/5 mb-10">
           <Card
             title="Tiến trình đơn hàng"
             className="border-none rounded-none"
@@ -106,17 +136,35 @@ const OrderInfoPage: React.FC = () => {
             />
           </Card>
         </div>
-        <div className="w-1/3 mb-10">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d7889868.551917753!2d106.01554435401626!3d15.077134118415595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zR0hOIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1740745498251!5m2!1svi!2s"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            title="Bưu cục ABC Delivery"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+        <div className="w-2/5 mb-10">
+          <MapContainer center={center} zoom={6} style={mapContainerStyle}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {listTracking
+              .filter(
+                (pos) => pos.status == "ready" || pos.status == "shipping"
+              )
+              .map((pos) => (
+                <Marker
+                  key={pos.id}
+                  position={[pos.location.latitude, pos.location.longitude]}
+                  icon={customIcon}
+                >
+                  <Popup>
+                    <div className="flex flex-col justify-start">
+                      <span className="font-semibold">{pos.description}</span>
+                      <span>Trạng thái hiện tại: {pos.status}</span>
+                      <span>
+                        Thời gian:
+                        {formatDateTime(pos.timeStamp.toString(), 1)}
+                      </span>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+          </MapContainer>
         </div>
       </div>
     </div>

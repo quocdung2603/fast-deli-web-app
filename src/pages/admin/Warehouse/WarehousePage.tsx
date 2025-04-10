@@ -173,6 +173,7 @@ const WarehousePage: React.FC = () => {
         }}
         onChange={onChange}
       />
+      
     </div>
   );
 };

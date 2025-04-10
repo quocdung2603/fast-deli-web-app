@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import IMG_ABOUT from "../../assets/img/about.jpg";
@@ -8,7 +7,6 @@ import { useAuth } from "../../common/context/AuthContext";
 import { UserLoginRequest } from "../../types/User/User";
 
 const Login = () => {
-  const [captchaChecked, setCaptchaChecked] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -69,18 +67,10 @@ const Login = () => {
                 placeholder="Nhập mật khẩu"
               />
             </Form.Item>
-
-            <div className="flex justify-between mb-4">
-              <Checkbox onChange={(e) => setCaptchaChecked(e.target.checked)}>
-                Tôi không phải là người máy
-              </Checkbox>
-            </div>
-
             <Button
               type="primary"
               htmlType="submit"
               className="w-full bg-orange-500 hover:bg-red-500"
-              disabled={!captchaChecked}
             >
               Đăng nhập
             </Button>

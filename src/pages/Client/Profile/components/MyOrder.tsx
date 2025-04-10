@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import CreateOrderForm from "./CreateOrderForm";
+import confirm from "antd/es/modal/confirm";
 import { useAuth } from "../../../../common/context/AuthContext";
 import { OrderServices } from "../../../../services/Order/OrderServices";
-import {
-  Order,
-  OrderResponse,
-  OrderResponseId,
-} from "../../../../types/Order/Order";
+import { OrderResponseId } from "../../../../types/Order/Order";
 import UpdateOrderForm from "./UpdateOrderForm";
 import { Link } from "react-router-dom";
-import { ClientRouterLink } from "../../../../utils/RouterLink";
 
 const MyOrder = () => {
   const [listData, setListData] = useState<any[]>([]);
@@ -51,6 +47,31 @@ const MyOrder = () => {
   useEffect(() => {
     if (user) getAll();
   }, [user]);
+
+  const showDeleteConfirm = (id: string) => {
+    confirm({
+      title: "Bạn có chắc muốn xóa dữ liệu này?",
+      content: "Bạn sẽ không thể khôi phục dữ liệu sau khi xóa!",
+      okText: "Xóa luôn sợ gì",
+      okType: "danger",
+      maskClosable: true,
+      closable: true,
+      onOk() {
+        OrderServices.delete(id)
+          .then(() => {
+            notification.success({ message: "Xóa thành công" });
+            getAll();
+            closeModal();
+          })
+          .catch(() => {
+            notification.error({
+              message: "Xóa thất bại ! Kiểm tra lại nha !",
+            });
+          });
+      },
+      cancelText: "Hủy",
+    });
+  };
 
   return (
     <div className="p-5 max-w-6xl mx-auto">
@@ -93,19 +114,21 @@ const MyOrder = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {listData.map((item) => (
-            <Link
-              to={`/order-information/${item.id}`}
-              target="_blank"
+            <div
               key={item.id}
               className="border rounded-lg overflow-hidden bg-white shadow-md flex flex-col"
             >
-              <img
-                src={`${import.meta.env.VITE_KEY_IMAGEURL}${item.imageUrls[0]}`}
-                alt={`Mã đơn: ${item.orderCode}`}
-                className="w-full h-36 object-cover"
-              />
-              <div className="p-4 flex flex-row justify-center items-center">
-                <div className="flex flex-col flex-start w-3/4">
+              <Link to={`/order-information/${item.id}`} target="_blank">
+                <img
+                  src={`${import.meta.env.VITE_KEY_IMAGEURL}${
+                    item.imageUrls[0]
+                  }`}
+                  alt={`Mã đơn: ${item.orderCode}`}
+                  className="w-full h-36 object-cover"
+                />
+              </Link>
+              <div className="p-4 flex flex-col justify-center items-center">
+                <div className="w-full">
                   <p className="text-gray-600 text-sm">
                     Trạng thái: {/* Ignore spell-check */}
                     <span className="font-bold text-blue-500">
@@ -116,18 +139,31 @@ const MyOrder = () => {
                     Giá: {item.deliveryFee.toString()} VNĐ
                   </p>
                 </div>
-                {(item.status === "waiting" || item.status === "canceled") && (
-                  <div className="w-1/4">
-                    <Button
-                      className="bg-red-500 text-white"
-                      onClick={() => showModalEdit(true, item)}
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                )}
+                <div className="flex flex-row justify-center items-center w-full">
+                  {(item.status === "waiting" ||
+                    item.status === "canceled") && (
+                    <div className="w-1/2 flex justify-center items-center">
+                      <Button
+                        className="bg-red-500 text-white"
+                        onClick={() => showModalEdit(true, item)}
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                  )}
+                  {item.status === "waiting" && (
+                    <div className="w-1/2 justify-center items-center">
+                      <Button
+                        className="bg-gray-300 text-white"
+                        onClick={() => showDeleteConfirm(item.id.toString())}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
