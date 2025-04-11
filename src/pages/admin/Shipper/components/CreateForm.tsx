@@ -1,12 +1,16 @@
 import { useEffect } from "react";
-import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
+import {
+  SubmitHandler,
+  useForm,
+  Controller,
+} from "react-hook-form";
 import { Button, notification } from "antd";
 import InputTypeString from "../../../../components/Input/InputTypeString";
 import InputTypeSelect from "../../../../components/Input/InputTypeSelect";
 import { Shipper } from "../../../../types/Shipper/Shipper";
 import { ShipperServices } from "../../../../services/Shipper/ShipperServices";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { UserServices } from "../../../../services/User/UserServices";
+import MapModalPicker from "../../../../components/Map/MapModalPicker";
 
 interface CreateFormFields extends Shipper {}
 
@@ -45,10 +49,10 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
     defaultValues: defaultFormValues,
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "shipperArea",
-  });
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "shipperArea",
+  // });
 
   useEffect(() => {
     if (initForm) {
@@ -200,46 +204,41 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
           />
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center space-y-3 border p-2">
-        <p className="font-semibold text-base text-center">
-          Phạm vi hoạt động (Shipper Area)
-        </p>
-        <div className="flex flex-col space-y-2">
-          {fields.map((item, index) => (
-            <div key={item.id} className="flex items-center space-x-3">
-              <InputTypeString
-                name={`shipperArea.${index}.latitude`}
-                control={control}
-                title="Latitude"
-                placeholder="Nhập vĩ độ"
-                rules={{ required: "Latitude không được bỏ trống" }}
+      <div className="w-full">
+        <p className="font-semibold text-sm">Chọn khu vực shipper:</p>
+        <Controller
+          name="shipperArea"
+          control={control}
+          rules={{
+            validate: (value) =>
+              (Array.isArray(value) && value.length > 0) ||
+              "Vui lòng chọn ít nhất một vị trí hợp lệ",
+          }}
+          render={({ field, fieldState: { error } }) => (
+            <div className="space-y-1">
+              <MapModalPicker
+                value={field.value || []} // Đảm bảo value luôn là mảng
+                onChange={field.onChange}
+                label="Chọn khu vực shipper"
+                multiple={true}
               />
-              <InputTypeString
-                name={`shipperArea.${index}.longitude`}
-                control={control}
-                title="Longitude"
-                placeholder="Nhập kinh độ"
-                rules={{ required: "Longitude không được bỏ trống" }}
-              />
-              <button
-                type="button"
-                onClick={() => remove(index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                <DeleteOutlined />
-              </button>
+              {Array.isArray(field.value) && field.value.length > 0 && (
+                <div className="text-sm text-gray-600">
+                  <p>📍 Các vị trí đã chọn:</p>
+                  <ul className="list-disc pl-5">
+                    {field.value.map((point, index) => (
+                      <li key={index} className="font-medium">
+                        ({point.latitude.toFixed(6)},{" "}
+                        {point.longitude.toFixed(6)})
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {error && <p className="text-sm text-red-600">{error.message}</p>}
             </div>
-          ))}
-        </div>
-        <div className="text-left">
-          <button
-            type="button"
-            onClick={() => append({ latitude: 0, longitude: 0 })}
-            className="flex items-center text-blue-600 hover:text-blue-800"
-          >
-            <PlusOutlined className="mr-1" /> Thêm địa điểm
-          </button>
-        </div>
+          )}
+        />
       </div>
       <div className="text-right">
         <Button
