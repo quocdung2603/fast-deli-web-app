@@ -1,6 +1,7 @@
 import OrderTrackingInput from "../../client/components/OrderTrackingInput";
 import { BellOutlined } from "@ant-design/icons";
 import { FaBars } from "react-icons/fa";
+import LanguageSelector from "../../../components/Lang/LanguageSelector";
 
 interface CollapseProps {
   collapse: boolean;
@@ -20,7 +21,10 @@ const navBarAdmin: React.FC<CollapseProps> = ({ collapse, setCollapse }) => {
         </button>
         <OrderTrackingInput />
       </div>
-      <div className="flex flex-row items-center ml-auto">
+      <div className="flex flex-row items-center ml-auto space-x-5">
+        <div>
+          <LanguageSelector />
+        </div>
         <div>
           <BellOutlined className="text-black text-lg" />
         </div>

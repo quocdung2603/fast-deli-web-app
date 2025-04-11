@@ -1,15 +1,17 @@
+import { useTranslation } from "react-i18next";
 import Banner from "../../../layouts/client/components/Banner";
 import Services from "./components/Services";
 
 const ServicePage = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <Banner
-        title="Services"
+        title={t("Client.Navbar.services")}
         breadcrumbs={[
-          { name: "Home", path: "" },
-          { name: "Pages", path: "" },
-          { name: "Services", path: "" },
+          { name: `${t("Client.Navbar.home")}`, path: "" },
+          { name: `${t("Client.Navbar.page")}`, path: "" },
+          { name: `${t("Client.Navbar.services")}`, path: "" },
         ]}
       />
       <Services />

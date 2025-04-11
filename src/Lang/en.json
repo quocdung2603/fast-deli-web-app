@@ -1,0 +1,165 @@
+{
+  "Admin": {
+    "dashboard": "Dashboard",
+    "user": "User",
+    "order": "Order",
+    "warehouse": "Warehouse",
+    "shipper": "Shipper",
+    "support": "Support",
+    "get-started": "Get started",
+    "setting": "Setting",
+    "logout": "Logout"
+  },
+  "Client": {
+    "carousel1Title": "#1 Place For Your Logistics Solution",
+    "carousel1Desc": "Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.",
+    "carousel2Title": "Reliable & Efficient Transport Services",
+    "carousel2Desc": "Providing the best solutions for your cargo transportation with safety and efficiency.",
+    "readMore": "Read More",
+    "freeQuote": "Free Quote",
+    "aboutUsSmall": "About Us",
+    "aboutUsTitle": "Quick Transport and Logistics Solutions",
+    "aboutUsDesc": "Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet.",
+    "aboutGlobalTitle": "Global Coverage",
+    "aboutGlobalDesc": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam justo.",
+    "aboutDeliveryTitle": "On Time Delivery",
+    "aboutDeliveryDesc": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam justo.",
+    "aboutExploreBtn": "Explore More",
+    "factHeadingSmall": "SOME FACTS",
+    "factHeadingMain": "#1 Place To Manage All Of Your Shipments",
+    "factDescription": "Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.",
+    "factItems": {
+      "happyClients": "Happy Clients",
+      "customerReviews": "Customer Reviews",
+      "completeShipments": "Complete Shipments"
+    },
+    "servicesHeading": "Explore Our Services",
+    "services": {
+      "airFreight": "Air Freight",
+      "oceanFreight": "Ocean Freight",
+      "roadFreight": "Road Freight",
+      "trainFreight": "Train Freight",
+      "customsClearance": "Customs Clearance",
+      "warehouseSolutions": "Warehouse Solutions",
+      "description": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.",
+      "readMore": "Read More"
+    },
+    "featureHeading": "OUR FEATURES",
+    "featureSubheading": "We Are Trusted Logistics Company Since 1990",
+    "features": {
+      "worldwide": "Worldwide Service",
+      "onTime": "On Time Delivery",
+      "support247": "24/7 Telephone Support",
+      "description": "Diam dolor ipsum sit amet eos erat ipsum lorem sed stet lorem sit clita duo justo magna erat amet"
+    },
+    "ourTeamHeading": "Our Team",
+    "ourTeamSubheading": "Expert Team Members",
+    "teamMembers": [
+      {
+        "name": "John Doe",
+        "designation": "Project Manager"
+      },
+      {
+        "name": "Michael Smith",
+        "designation": "Civil Engineer"
+      },
+      {
+        "name": "Sarah Johnson",
+        "designation": "Architect"
+      },
+      {
+        "name": "David Brown",
+        "designation": "Site Supervisor"
+      }
+    ],
+    "quoteTitle": "GET A QUOTE",
+    "quoteSubTitle": "Request A Free Quote!",
+    "quoteDescription": "Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet.",
+    "quoteCallLabel": "Call for any query!",
+    "quotePhone": "+012 345 6789",
+    "GHNOffice": "ABC DELIVERY OFFICE",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "mobile": "Your Mobile",
+      "freight": "Select A Freight",
+      "freightOptions": {
+        "air": "Air Freight",
+        "ocean": "Ocean Freight",
+        "road": "Road Freight"
+      },
+      "note": "Special Note",
+      "submit": "Submit"
+    },
+    "Navbar": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "contact": "Contact",
+      "login": "Login",
+      "register": "Register",
+      "phone": "+012 345 6789",
+      "call": "Call",
+      "page": "Page"
+    },
+    "Footer": {
+      "address": "Address",
+      "services": "Services",
+      "quickLinks": "Quick Links",
+      "newsletter": "Newsletter",
+      "aboutUs": "About Us",
+      "contactUs": "Contact Us",
+      "ourServices": "Our Services",
+      "terms": "Terms & Condition",
+      "support": "Support",
+      "airFreight": "Air Freight",
+      "seaFreight": "Sea Freight",
+      "roadFreight": "Road Freight",
+      "logisticSolutions": "Logistic Solutions",
+      "industrySolutions": "Industry Solutions",
+      "newsletterDesc": "Dolor amet sit justo amet ipsum elitr est.",
+      "signup": "SignUp",
+      "placeholderEmail": "Your email",
+      "copyright": "© Your Site Name, All Rights Reserved."
+    },
+    "OrderTracking": {
+      "placeholder": "Enter your order code to track..."
+    },
+    "UserDropdown": {
+      "viewProfile": "View Profile",
+      "settings": "Settings & Privacy",
+      "help": "Help & Support",
+      "logout": "Logout"
+    },
+    "PersonalPage": {
+      "title": "My Profile",
+      "tabs": {
+        "personalInfo": "Personal Information",
+        "notifications": "Notifications",
+        "history": "History",
+        "myOrders": "My Orders"
+      }
+    },
+    "MyOrder": {
+      "title": "Sent Products ({{count}})",
+      "noOrder": "No products have been sent yet",
+      "addNew": "Add New",
+      "modal": {
+        "create": "Add New Order",
+        "update": "Edit Order"
+      },
+      "status": "Status",
+      "price": "Price",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "confirm": {
+        "title": "Are you sure you want to delete this?",
+        "content": "You won’t be able to recover this data!",
+        "okText": "Delete anyway",
+        "cancelText": "Cancel",
+        "success": "Delete successful",
+        "error": "Delete failed! Please check again."
+      }
+    }
+  }
+}

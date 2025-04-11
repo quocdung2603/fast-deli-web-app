@@ -4,24 +4,29 @@ import { AdminSiteMenu } from "../../../common/configs/AdminSiteMenu";
 import ItemNavBar from "./ItemNavBar";
 import { useAuth } from "../../../common/context/AuthContext";
 import { IcBulb, IcCog } from "../../../components/Icon/AdminIcon";
+import { useTranslation } from "react-i18next";
 
 interface CollapseProps {
   collapse: boolean;
 }
 
-const footerMenu = [
-  { content: "Get Started", href: "/", icon: <IcBulb /> },
-  { content: "Setting", href: "/", icon: <IcCog /> },
-];
-
 const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
   const [showMenu, setShowMenu] = useState(false);
 
+  const adminSiteMenu = AdminSiteMenu();
+
   const handleMenuClick = (index: number) => {
     setActiveMenuIndex(activeMenuIndex === index ? null : index); // Đóng nếu đã mở, mở nếu chưa
   };
+
+  const footerMenu = [
+    { content: `${t("Admin.get-started")}`, href: "/", icon: <IcBulb /> },
+    { content: `${t("Admin.setting")}`, href: "/", icon: <IcCog /> },
+  ];
+
   //console.log(collapse);
   return (
     <div
@@ -39,7 +44,7 @@ const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
         )}
       </div>
       <div id="menu" className="flex flex-col space-y-2 my-5">
-        {AdminSiteMenu.map((item, index) => (
+        {adminSiteMenu.map((item, index) => (
           <ItemNavBar
             key={index}
             content={item.content}
@@ -56,7 +61,7 @@ const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
         {collapse && (
           <div className="flex justify-start">
             <span className="text-textsidebar font-semibold text-[20px] text-red-500">
-              Support
+              {t("Admin.support")}
             </span>
           </div>
         )}
@@ -83,7 +88,7 @@ const SideBarAdmin: React.FC<CollapseProps> = ({ collapse }) => {
           <div className="absolute right-20 bottom-[73px] bg-white shadow-lg rounded">
             <ul>
               <li className="p-2 hover:bg-gray-100 cursor-pointer text-black font-semibold">
-                <button onClick={logout}>Đăng xuất</button>
+                <button onClick={logout}>{t("Admin.logout")}</button>
               </li>
             </ul>
           </div>

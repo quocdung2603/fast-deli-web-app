@@ -7,8 +7,10 @@ import { OrderServices } from "../../../../services/Order/OrderServices";
 import { OrderResponseId } from "../../../../types/Order/Order";
 import UpdateOrderForm from "./UpdateOrderForm";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const MyOrder = () => {
+  const { t } = useTranslation();
   const [listData, setListData] = useState<any[]>([]);
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,25 +25,19 @@ const MyOrder = () => {
 
   const closeModal = () => {
     if (modalEdit.data) {
-      setModalEdit({
-        isOpen: false,
-        data: undefined,
-      });
+      setModalEdit({ isOpen: false, data: undefined });
       return;
     }
     setIsModalOpen(false);
   };
+
   const showModalEdit = (isOpen: boolean, data: any) => {
-    setModalEdit({
-      isOpen,
-      data,
-    });
+    setModalEdit({ isOpen, data });
   };
 
   const getAll = async () => {
     const req: OrderResponseId = await OrderServices.getAll();
     setListData(req.data);
-    console.log("req", req.data);
   };
 
   useEffect(() => {
@@ -50,40 +46,42 @@ const MyOrder = () => {
 
   const showDeleteConfirm = (id: string) => {
     confirm({
-      title: "Bạn có chắc muốn xóa dữ liệu này?",
-      content: "Bạn sẽ không thể khôi phục dữ liệu sau khi xóa!",
-      okText: "Xóa luôn sợ gì",
+      title: t("Client.MyOrder.confirm.title"),
+      content: t("Client.MyOrder.confirm.content"),
+      okText: t("Client.MyOrder.confirm.okText"),
+      cancelText: t("Client.MyOrder.confirm.cancelText"),
       okType: "danger",
       maskClosable: true,
       closable: true,
       onOk() {
         OrderServices.delete(id)
           .then(() => {
-            notification.success({ message: "Xóa thành công" });
+            notification.success({
+              message: t("Client.MyOrder.confirm.success"),
+            });
             getAll();
             closeModal();
           })
           .catch(() => {
-            notification.error({
-              message: "Xóa thất bại ! Kiểm tra lại nha !",
-            });
+            notification.error({ message: t("Client.MyOrder.confirm.error") });
           });
       },
-      cancelText: "Hủy",
     });
   };
 
   return (
     <div className="p-5 max-w-6xl mx-auto">
       <h2 className="text-base font-bold mb-5">
-        Sản phẩm đã gửi ({listData.length})
+        {t("Client.MyOrder.title", { count: listData.length })}
       </h2>
       <div className="flex justify-end m-5">
-        <Button onClick={showModal}>Thêm mới</Button>
+        <Button onClick={showModal}>{t("Client.MyOrder.addNew")}</Button>
       </div>
+
+      {/* Modal thêm mới */}
       <Modal
         width={1000}
-        title="Thêm mới thông tin"
+        title={t("Client.MyOrder.modal.create")}
         open={isModalOpen}
         onCancel={closeModal}
         cancelButtonProps={{ className: "hidden" }}
@@ -95,9 +93,11 @@ const MyOrder = () => {
           initForm={modalEdit.data}
         />
       </Modal>
+
+      {/* Modal chỉnh sửa */}
       <Modal
         width={1000}
-        title="Sửa Thông tin"
+        title={t("Client.MyOrder.modal.update")}
         open={modalEdit.isOpen}
         onCancel={closeModal}
         cancelButtonProps={{ className: "hidden" }}
@@ -109,8 +109,10 @@ const MyOrder = () => {
           getAll={getAll}
         />
       </Modal>
+
+      {/* Danh sách sản phẩm */}
       {listData.length === 0 ? (
-        <p className="text-gray-500 text-sm">Chưa có sản phẩm nào được gửi</p>
+        <p className="text-gray-500 text-sm">{t("Client.MyOrder.noOrder")}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {listData.map((item) => (
@@ -130,13 +132,14 @@ const MyOrder = () => {
               <div className="p-4 flex flex-col justify-center items-center">
                 <div className="w-full">
                   <p className="text-gray-600 text-sm">
-                    Trạng thái: {/* Ignore spell-check */}
+                    {t("Client.MyOrder.status")}:{" "}
                     <span className="font-bold text-blue-500">
                       {item.status}
                     </span>
                   </p>
                   <p className="text-gray-600 text-sm">
-                    Giá: {item.deliveryFee.toString()} VNĐ
+                    {t("Client.MyOrder.price")}: {item.deliveryFee.toString()}{" "}
+                    VNĐ
                   </p>
                 </div>
                 <div className="flex flex-row justify-center items-center w-full">
@@ -147,7 +150,7 @@ const MyOrder = () => {
                         className="bg-red-500 text-white"
                         onClick={() => showModalEdit(true, item)}
                       >
-                        Edit
+                        {t("Client.MyOrder.edit")}
                       </Button>
                     </div>
                   )}
@@ -157,7 +160,7 @@ const MyOrder = () => {
                         className="bg-gray-300 text-white"
                         onClick={() => showDeleteConfirm(item.id.toString())}
                       >
-                        Cancel
+                        {t("Client.MyOrder.cancel")}
                       </Button>
                     </div>
                   )}
