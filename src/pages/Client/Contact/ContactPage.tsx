@@ -1,16 +1,18 @@
+import { useTranslation } from "react-i18next";
 import Banner from "../../../layouts/client/components/Banner";
 import PostOfficeLocator from "./components/PostOfficeLocation";
 import Quote from "./components/Quote";
 
 const ContactPage = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <Banner
-        title="Services"
+        title={t("Client.Navbar.contact")}
         breadcrumbs={[
-          { name: "ABC", path: "" },
-          { name: "Pages", path: "" },
-          { name: "Contact", path: "" },
+          { name: `${t("Client.Navbar.home")}`, path: "" },
+          { name: `${t("Client.Navbar.page")}`, path: "" },
+          { name: `${t("Client.Navbar.contact")}`, path: "" },
         ]}
       />
       <Quote />

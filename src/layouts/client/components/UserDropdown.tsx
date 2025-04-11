@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import IMG_AVATAR from "../../../assets/img/avatar-1.png";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface UserDropdownProps {
   username: string | undefined;
@@ -15,11 +16,11 @@ interface UserDropdownProps {
 }
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ username, onLogout }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Ẩn menu khi click bên ngoài
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -38,17 +39,25 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ username, onLogout }) => {
   const menuItems: MenuProps["items"] = [
     {
       key: "1",
-      label: "Xem tất cả trang cá nhân",
+      label: t("Client.UserDropdown.viewProfile"),
       icon: <EyeOutlined />,
       onClick: () => {
         navigate("/profile");
       },
     },
-    { key: "2", label: "Cài đặt & quyền riêng tư", icon: <SettingOutlined /> },
-    { key: "3", label: "Trợ giúp & hỗ trợ", icon: <QuestionCircleOutlined /> },
+    {
+      key: "2",
+      label: t("Client.UserDropdown.settings"),
+      icon: <SettingOutlined />,
+    },
+    {
+      key: "3",
+      label: t("Client.UserDropdown.help"),
+      icon: <QuestionCircleOutlined />,
+    },
     {
       key: "4",
-      label: "Đăng xuất",
+      label: t("Client.UserDropdown.logout"),
       icon: <LogoutOutlined />,
       onClick: onLogout,
     },
@@ -56,15 +65,12 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ username, onLogout }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar */}
       <img
         src={IMG_AVATAR}
         alt="Avatar"
         className="w-10 h-10 rounded-full cursor-pointer border border-gray-300 hover:border-blue-500"
         onClick={() => setIsOpen(!isOpen)}
       />
-
-      {/* Dropdown menu */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-64 bg-white text-black rounded-lg shadow-lg z-50">
           <div className="p-4 flex items-center space-x-3 border-b border-gray-700">

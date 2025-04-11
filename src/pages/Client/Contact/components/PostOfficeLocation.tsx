@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { WarehouseServices } from "../../../../services/Order/WarehouseServices";
 import { Warehouse } from "../../../../types/Order/Warehouse";
+import MapEffect from "../../../../components/Map/MapEffect";
+import { useTranslation } from "react-i18next";
 
 interface ApiResponse {
   code: number;
@@ -34,10 +36,13 @@ const customIcon = new L.Icon({
 const center = { lat: 14.0583, lng: 108.2772 };
 
 const PostOfficeLocator = () => {
+  const {t} = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
   const [province, setProvince] = useState<string | undefined>();
   const [postOffices, setPostOffices] = useState<ApiResponse["data"]>([]);
-  const [provinces, setProvinces] = useState<{ label: string; value: string }[]>([]);
+  const [provinces, setProvinces] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -77,7 +82,7 @@ const PostOfficeLocator = () => {
   return (
     <div className="py-10 px-5 flex flex-col md:flex-row gap-6 max-w-7xl mx-auto">
       <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-lg font-bold text-blue-600">BƯU CỤC GHN</h2>
+        <h2 className="text-lg font-bold text-blue-600">{t('Client.GHNOffice')}</h2>
         <Select
           placeholder="Chọn tỉnh"
           className="w-full mt-4"
@@ -95,6 +100,18 @@ const PostOfficeLocator = () => {
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MapEffect
+            markers={
+              postOffices
+                ? [
+                    ...postOffices.map((pos) => ({
+                      latitude: pos.location.latitude,
+                      longitude: pos.location.longitude,
+                    })),
+                  ]
+                : []
+            }
           />
           {postOffices.map((pos) => (
             <Marker

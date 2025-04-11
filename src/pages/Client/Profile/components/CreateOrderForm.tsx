@@ -5,7 +5,6 @@ import { useAuth } from "../../../../common/context/AuthContext";
 import InputTypeFile from "../../../../components/Input/InputTypeFile";
 import InputTypeString from "../../../../components/Input/InputTypeString";
 import InputTypeNumber from "../../../../components/Input/InputTypeNumber";
-import InputDescription from "../../../../components/Input/InputDescription";
 import { Button, notification } from "antd";
 import { OrderServices } from "../../../../services/Order/OrderServices";
 
@@ -132,7 +131,6 @@ const CreateOrderForm: React.FC<CreateFormProps> = ({
             rules={{ required: "Địa chỉ người nhận không được trống" }}
             title="Địa chỉ người nhận"
             placeholder="Nhập địa chỉ người nhận"
-            
           />
         </div>
         <div className="w-full flex flex-row justify-between items-center space-x-10">

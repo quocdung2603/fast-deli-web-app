@@ -1,0 +1,165 @@
+{
+  "Admin": {
+    "dashboard": "Bảng thống kê",
+    "user": "Người dùng",
+    "order": "Đơn hàng",
+    "warehouse": "Kho",
+    "shipper": "Người giao hàng",
+    "support": "Hỗ trợ",
+    "get-started": "Bắt đầu",
+    "setting": "Cài đặt",
+    "logout": "Đăng xuất"
+  },
+  "Client": {
+    "carousel1Title": "#1 Lựa chọn cho giải pháp Logistics của bạn",
+    "carousel1Desc": "Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.",
+    "carousel2Title": "Dịch vụ vận chuyển đáng tin cậy & hiệu quả",
+    "carousel2Desc": "Cung cấp giải pháp vận chuyển hàng hóa an toàn và hiệu quả.",
+    "readMore": "Đọc thêm",
+    "freeQuote": "Báo giá miễn phí",
+    "aboutUsSmall": "Về Chúng Tôi",
+    "aboutUsTitle": "Giải pháp Vận chuyển và Logistics Nhanh chóng",
+    "aboutUsDesc": "Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet.",
+    "aboutGlobalTitle": "Phủ sóng toàn cầu",
+    "aboutGlobalDesc": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam justo.",
+    "aboutDeliveryTitle": "Giao hàng đúng hẹn",
+    "aboutDeliveryDesc": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam justo.",
+    "aboutExploreBtn": "Khám phá thêm",
+    "factHeadingSmall": "MỘT SỐ CON SỐ",
+    "factHeadingMain": "#1 Nơi để quản lý tất cả các lô hàng của bạn",
+    "factDescription": "Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.",
+    "factItems": {
+      "happyClients": "Khách hàng hài lòng",
+      "customerReviews": "Đánh giá khách hàng",
+      "completeShipments": "Lô hàng hoàn tất"
+    },
+    "servicesHeading": "Khám phá các dịch vụ của chúng tôi",
+    "services": {
+      "airFreight": "Vận chuyển hàng không",
+      "oceanFreight": "Vận chuyển đường biển",
+      "roadFreight": "Vận chuyển đường bộ",
+      "trainFreight": "Vận chuyển đường sắt",
+      "customsClearance": "Thông quan hải quan",
+      "warehouseSolutions": "Giải pháp kho bãi",
+      "description": "Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.",
+      "readMore": "Xem thêm"
+    },
+    "featureHeading": "CÁC TÍNH NĂNG",
+    "featureSubheading": "Chúng tôi là công ty logistics đáng tin cậy từ năm 1990",
+    "features": {
+      "worldwide": "Dịch vụ toàn cầu",
+      "onTime": "Giao hàng đúng giờ",
+      "support247": "Hỗ trợ điện thoại 24/7",
+      "description": "Diam dolor ipsum sit amet eos erat ipsum lorem sed stet lorem sit clita duo justo magna erat amet"
+    },
+    "ourTeamHeading": "Đội ngũ của chúng tôi",
+    "ourTeamSubheading": "Thành viên chuyên nghiệp",
+    "teamMembers": [
+      {
+        "name": "John Doe",
+        "designation": "Quản lý dự án"
+      },
+      {
+        "name": "Michael Smith",
+        "designation": "Kỹ sư xây dựng"
+      },
+      {
+        "name": "Sarah Johnson",
+        "designation": "Kiến trúc sư"
+      },
+      {
+        "name": "David Brown",
+        "designation": "Giám sát công trình"
+      }
+    ],
+    "quoteTitle": "NHẬN BÁO GIÁ",
+    "quoteSubTitle": "Yêu cầu báo giá miễn phí!",
+    "quoteDescription": "Tạm thời erat elitr rebum tại clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet.",
+    "quoteCallLabel": "Gọi nếu có thắc mắc!",
+    "quotePhone": "+012 345 6789",
+    "GHNOffice": "BƯU CỤC ABC DELIVERY",
+    "form": {
+      "name": "Tên của bạn",
+      "email": "Email của bạn",
+      "mobile": "Số điện thoại của bạn",
+      "freight": "Chọn loại vận chuyển",
+      "freightOptions": {
+        "air": "Vận chuyển hàng không",
+        "ocean": "Vận chuyển đường biển",
+        "road": "Vận chuyển đường bộ"
+      },
+      "note": "Ghi chú đặc biệt",
+      "submit": "Gửi"
+    },
+    "Navbar": {
+      "home": "Trang chủ",
+      "about": "Giới thiệu",
+      "services": "Dịch vụ",
+      "contact": "Liên hệ",
+      "login": "Đăng nhập",
+      "register": "Đăng ký",
+      "phone": "+012 345 6789",
+      "call": "Liên hệ",
+      "page": "Trang"
+    },
+    "Footer": {
+      "address": "Địa chỉ",
+      "services": "Dịch vụ",
+      "quickLinks": "Liên kết nhanh",
+      "newsletter": "Bản tin",
+      "aboutUs": "Về chúng tôi",
+      "contactUs": "Liên hệ",
+      "ourServices": "Dịch vụ của chúng tôi",
+      "terms": "Điều khoản & Điều kiện",
+      "support": "Hỗ trợ",
+      "airFreight": "Vận chuyển hàng không",
+      "seaFreight": "Vận chuyển đường biển",
+      "roadFreight": "Vận chuyển đường bộ",
+      "logisticSolutions": "Giải pháp logistics",
+      "industrySolutions": "Giải pháp ngành nghề",
+      "newsletterDesc": "Dolor amet sit justo amet ipsum elitr est.",
+      "signup": "Đăng ký",
+      "copyright": "© Tên trang của bạn. Đã đăng ký bản quyền.",
+      "placeholderEmail": "Email của bạn"
+    },
+    "OrderTracking": {
+      "placeholder": "Nhập mã đơn hàng bạn cần tra cứu..."
+    },
+    "UserDropdown": {
+      "viewProfile": "Xem tất cả trang cá nhân",
+      "settings": "Cài đặt & quyền riêng tư",
+      "help": "Trợ giúp & hỗ trợ",
+      "logout": "Đăng xuất"
+    },
+    "PersonalPage": {
+      "title": "Trang cá nhân",
+      "tabs": {
+        "personalInfo": "Thông tin cá nhân",
+        "notifications": "Thông báo",
+        "history": "Lịch sử",
+        "myOrders": "Đơn hàng của tôi"
+      }
+    },
+    "MyOrder": {
+      "title": "Sản phẩm đã gửi ({{count}})",
+      "noOrder": "Chưa có sản phẩm nào được gửi",
+      "addNew": "Thêm mới",
+      "modal": {
+        "create": "Thêm mới thông tin",
+        "update": "Sửa Thông tin"
+      },
+      "status": "Trạng thái",
+      "price": "Giá",
+      "edit": "Sửa",
+      "cancel": "Hủy",
+      "confirm": {
+        "title": "Bạn có chắc muốn xóa dữ liệu này?",
+        "content": "Bạn sẽ không thể khôi phục dữ liệu sau khi xóa!",
+        "okText": "Xóa luôn sợ gì",
+        "cancelText": "Hủy",
+        "success": "Xóa thành công",
+        "error": "Xóa thất bại ! Kiểm tra lại nha !"
+      }
+    }
+  }
+}

@@ -4,36 +4,38 @@ import {
   ClockCircleOutlined,
   CustomerServiceOutlined,
 } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import IMG_FEATURE from "../../../../assets/img/feature.jpg";
 
-const features = [
-  {
-    icon: <GlobalOutlined className="text-red-500 text-3xl" />,
-    title: "Worldwide Service",
-    description:
-      "Diam dolor ipsum sit amet eos erat ipsum lorem sed stet lorem sit clita duo justo magna erat amet",
-  },
-  {
-    icon: <ClockCircleOutlined className="text-red-500 text-3xl" />,
-    title: "On Time Delivery",
-    description:
-      "Diam dolor ipsum sit amet eos erat ipsum lorem sed stet lorem sit clita duo justo magna erat amet",
-  },
-  {
-    icon: <CustomerServiceOutlined className="text-red-500 text-3xl" />,
-    title: "24/7 Telephone Support",
-    description:
-      "Diam dolor ipsum sit amet eos erat ipsum lorem sed stet lorem sit clita duo justo magna erat amet",
-  },
-];
-
 const Feature: React.FC = () => {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: <GlobalOutlined className="text-red-500 text-3xl" />,
+      title: t("Client.features.worldwide"),
+      description: t("Client.features.description"),
+    },
+    {
+      icon: <ClockCircleOutlined className="text-red-500 text-3xl" />,
+      title: t("Client.features.onTime"),
+      description: t("Client.features.description"),
+    },
+    {
+      icon: <CustomerServiceOutlined className="text-red-500 text-3xl" />,
+      title: t("Client.features.support247"),
+      description: t("Client.features.description"),
+    },
+  ];
+
   return (
     <section className="flex flex-col lg:flex-row items-center max-w-7xl mx-auto py-10 px-5">
       <div className="lg:w-1/2">
-        <h3 className="text-blue-600 font-semibold text-lg">OUR FEATURES</h3>
+        <h3 className="text-blue-600 font-semibold text-lg">
+          {t("Client.featureHeading")}
+        </h3>
         <h2 className="text-3xl font-bold text-gray-800 mt-2">
-          We Are Trusted Logistics Company Since 1990
+          {t("Client.featureSubheading")}
         </h2>
         <div className="mt-6 space-y-6">
           {features.map((feature, index) => (

@@ -1,10 +1,14 @@
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const OrderTrackingInput: React.FC = () => {
   const [orderCode, setOrderCode] = useState("");
+  const { t } = useTranslation();
+
   const handleSearch = () => {
+    if (!orderCode.trim()) return;
     const url = `/order-information/${orderCode}`;
     window.open(url, "_blank");
   };
@@ -12,7 +16,7 @@ const OrderTrackingInput: React.FC = () => {
   return (
     <div className="w-full max-w-md">
       <Input
-        placeholder="Nhập mã đơn hàng bạn cần tra cứu..."
+        placeholder={t("Client.OrderTracking.placeholder")}
         value={orderCode}
         onChange={(e) => setOrderCode(e.target.value)}
         onPressEnter={handleSearch}
