@@ -103,10 +103,10 @@ const MyOrder = () => {
         cancelButtonProps={{ className: "hidden" }}
         okButtonProps={{ className: "hidden" }}
       >
-        <UpdateOrderForm
-          initForm={modalEdit.data}
+        <CreateOrderForm
           closeModal={closeModal}
           getAll={getAll}
+          initForm={modalEdit.data}
         />
       </Modal>
 
