@@ -1,12 +1,21 @@
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { useEffect, useState } from "react";
 import { GeoPoint } from "../../types/GeoPoint";
+import L from "leaflet";
+
+const WarehouseIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/64/2776/2776067.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 
 interface SingleMapPickerProps {
   value: GeoPoint;
   onChange: (val: GeoPoint) => void;
   multiple?: false;
   maxMarkers?: number;
+  AdditionalLocations?: GeoPoint[];
 }
 
 interface MultiMapPickerProps {
@@ -14,6 +23,7 @@ interface MultiMapPickerProps {
   onChange: (val: GeoPoint[]) => void;
   multiple: true;
   maxMarkers?: number;
+  AdditionalLocations?: GeoPoint[];
 }
 
 type MapPickerProps = SingleMapPickerProps | MultiMapPickerProps;
@@ -23,6 +33,7 @@ const InputMapPicker: React.FC<MapPickerProps> = ({
   onChange,
   multiple = false,
   maxMarkers = 5,
+  AdditionalLocations = [],
 }) => {
   const defaultPosition: [number, number] = [14.0583, 108.2772];
 
@@ -78,6 +89,35 @@ const InputMapPicker: React.FC<MapPickerProps> = ({
       }
     };
 
+    // Hàm xử lý khi click vào Marker trong AdditionalLocations
+    const handleAdditionalMarkerClick = (pos: GeoPoint) => {
+      const newLocation = { latitude: pos.latitude, longitude: pos.longitude };
+
+      // Kiểm tra xem đã có Marker tại vị trí này trong positions chưa
+      const existingMarkerIndex = positions.findIndex(
+        (p) => p.latitude === newLocation.latitude && p.longitude === newLocation.longitude
+      );
+
+      if (existingMarkerIndex !== -1) {
+        // Nếu đã có Marker, xóa nó
+        handleRemoveMarker(existingMarkerIndex);
+      } else {
+        // Nếu chưa có, thêm Marker mới
+        if (multiple) {
+          if (positions.length >= maxMarkers) {
+            alert(`Chỉ được chọn tối đa ${maxMarkers} vị trí.`);
+            return;
+          }
+          const updated = [...positions, newLocation];
+          setPositions(updated);
+          (onChange as (val: GeoPoint[]) => void)(updated);
+        } else {
+          setPositions([newLocation]);
+          (onChange as (val: GeoPoint) => void)(newLocation);
+        }
+      }
+    };
+
     return (
       <>
         {positions.map((pos, idx) => (
@@ -86,6 +126,16 @@ const InputMapPicker: React.FC<MapPickerProps> = ({
             position={[pos.latitude, pos.longitude]}
             eventHandlers={{
               click: () => handleRemoveMarker(idx),
+            }}
+          />
+        ))}
+        {AdditionalLocations.map((pos, idx) => (
+          <Marker
+            key={`additional-${idx}`}
+            position={[pos.latitude, pos.longitude]}
+            icon={WarehouseIcon}
+            eventHandlers={{
+              click: () => handleAdditionalMarkerClick(pos),
             }}
           />
         ))}
@@ -129,7 +179,7 @@ const InputMapPicker: React.FC<MapPickerProps> = ({
           style={{ height: "700px", width: "100%" }}
         >
           <TileLayer
-            attribution="&copy; OpenStreetMap contributors"
+            attribution="© OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <LocationMarkers />

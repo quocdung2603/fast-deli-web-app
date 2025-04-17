@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Order } from "../../../../types/Order/Order";
 import React, { useEffect } from "react";
 import { useAuth } from "../../../../common/context/AuthContext";
@@ -7,7 +7,7 @@ import InputTypeString from "../../../../components/Input/InputTypeString";
 import InputTypeNumber from "../../../../components/Input/InputTypeNumber";
 import { Button, notification } from "antd";
 import { OrderServices } from "../../../../services/Order/OrderServices";
-import InputTypeSelect from "../../../../components/Input/InputTypeSelect";
+import MapModalPicker from "../../../../components/Map/MapModalPicker";
 
 interface CreateFormFields extends Order {}
 
@@ -36,29 +36,6 @@ const defaultFormValues: CreateFormFields = {
   locationReciver: { latitude: 0, longitude: 0 },
 };
 
-const OrderStatusList = [
-  {
-    value: "waiting",
-    label: "Waiting",
-  },
-  {
-    value: "pending",
-    label: "Pending",
-  },
-  {
-    value: "shipping",
-    label: "Shipping",
-  },
-  {
-    value: "complete",
-    label: "Completed",
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-  },
-];
-
 const CreateForm: React.FC<CreateFormProps> = ({
   initForm,
   getAll,
@@ -68,7 +45,6 @@ const CreateForm: React.FC<CreateFormProps> = ({
     defaultValues: defaultFormValues,
   });
   const { user } = useAuth();
-  console.log("user", user);
 
   const onSubmit: SubmitHandler<CreateFormFields> = async (data) => {
     try {
@@ -107,7 +83,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
     >
       <h2 className="text-base font-bold text-center">Tạo đơn hàng</h2>
       <div className="w-full flex flex-row space-x-4">
-        <div className="w-1/2 h-[230px]">
+        <div className="w-1/2 h-[270px]">
           <InputTypeFile
             name="images"
             control={control}
@@ -130,16 +106,9 @@ const CreateForm: React.FC<CreateFormProps> = ({
             title="Phí giao hàng"
             placeholder="Nhập phí giao hàng"
           />
-          <InputTypeSelect
-            title="Trạng thái"
-            name="status"
-            control={control}
-            rules={{ required: "Trạng thái không được trống" }}
-            titleOption={OrderStatusList}
-          />
         </div>
       </div>
-      <div className="w-full flex flex-col justify-between items-center space-y-1 border p-1">
+      <div className="w-full flex flex-col justify-between items-center space-y-4 border p-2">
         <p className="text-right text-base">Thông tin người nhận</p>
         <div className="w-full flex flex-row justify-between items-center space-x-10">
           <InputTypeString
@@ -164,24 +133,42 @@ const CreateForm: React.FC<CreateFormProps> = ({
             placeholder="Nhập địa chỉ người nhận"
           />
         </div>
-        <div className="w-full flex flex-row justify-between items-center space-x-10">
-          <InputTypeString
-            name="locationReciver.latitude"
+        <div className="w-full">
+          <p className="font-semibold text-sm">Chọn vị trí người nhận:</p>
+          <Controller
+            name="locationReciver"
             control={control}
-            rules={{ required: "Phải nhập vĩ độ" }}
-            title="Vĩ độ người nhận"
-            placeholder="Nhập vĩ độ người nhận"
-          />
-          <InputTypeString
-            name="locationReciver.longitude"
-            control={control}
-            rules={{ required: "Phải nhập kinh độ" }}
-            title="Kinh độ người nhận"
-            placeholder="Nhập kinh độ người nhận"
+            rules={{
+              validate: (value) =>
+                (value.latitude !== 0 && value.longitude !== 0) ||
+                "Vui lòng chọn một vị trí hợp lệ",
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <div className="space-y-1">
+                <MapModalPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="Chọn vị trí người nhận"
+                  multiple={false}
+                />
+                {field.value?.latitude && field.value?.longitude && (
+                  <p className="text-sm text-gray-600">
+                    📍 Vị trí đã chọn:{" "}
+                    <span className="font-medium">
+                      ({field.value.latitude.toFixed(6)},{" "}
+                      {field.value.longitude.toFixed(6)})
+                    </span>
+                  </p>
+                )}
+                {error && (
+                  <p className="text-sm text-red-600">{error.message}</p>
+                )}
+              </div>
+            )}
           />
         </div>
       </div>
-      <div className="w-full flex flex-col justify-between space-y-2 border p-1">
+      <div className="w-full flex flex-col justify-between space-y-4 border p-2">
         <InputTypeString
           name="senderAddress"
           control={control}
@@ -189,20 +176,38 @@ const CreateForm: React.FC<CreateFormProps> = ({
           title="Địa chỉ người gửi"
           placeholder="Địa chỉ người gửi"
         />
-        <div className="w-full flex flex-row justify-between items-center space-x-10">
-          <InputTypeString
-            name="locationSender.latitude"
+        <div className="w-full">
+          <p className="font-semibold text-sm">Chọn vị trí người gửi:</p>
+          <Controller
+            name="locationSender"
             control={control}
-            rules={{ required: "Phải nhập vĩ độ" }}
-            title="Vĩ độ người nhận"
-            placeholder="Nhập vĩ độ người nhận"
-          />
-          <InputTypeString
-            name="locationSender.longitude"
-            control={control}
-            rules={{ required: "Phải nhập kinh độ" }}
-            title="Kinh độ người nhận"
-            placeholder="Nhập kinh độ người nhận"
+            rules={{
+              validate: (value) =>
+                (value.latitude !== 0 && value.longitude !== 0) ||
+                "Vui lòng chọn một vị trí hợp lệ",
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <div className="space-y-1">
+                <MapModalPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="Chọn vị trí người gửi"
+                  multiple={false}
+                />
+                {field.value?.latitude && field.value?.longitude && (
+                  <p className="text-sm text-gray-600">
+                    📍 Vị trí đã chọn:{" "}
+                    <span className="font-medium">
+                      ({field.value.latitude.toFixed(6)},{" "}
+                      {field.value.longitude.toFixed(6)})
+                    </span>
+                  </p>
+                )}
+                {error && (
+                  <p className="text-sm text-red-600">{error.message}</p>
+                )}
+              </div>
+            )}
           />
         </div>
       </div>
