@@ -1,9 +1,5 @@
-import { useEffect } from "react";
-import {
-  SubmitHandler,
-  useForm,
-  Controller,
-} from "react-hook-form";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { Button, notification } from "antd";
 import InputTypeString from "../../../../components/Input/InputTypeString";
 import InputTypeSelect from "../../../../components/Input/InputTypeSelect";
@@ -11,6 +7,8 @@ import { Shipper } from "../../../../types/Shipper/Shipper";
 import { ShipperServices } from "../../../../services/Shipper/ShipperServices";
 import { UserServices } from "../../../../services/User/UserServices";
 import MapModalPicker from "../../../../components/Map/MapModalPicker";
+import { Warehouse } from "../../../../types/Order/Warehouse";
+import { WarehouseServices } from "../../../../services/Order/WarehouseServices";
 
 interface CreateFormFields extends Shipper {}
 
@@ -49,6 +47,20 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
     defaultValues: defaultFormValues,
   });
 
+  const [listWarehouse, setListWarehouse] = useState<
+    { latitude: number; longitude: number }[]
+  >([]);
+
+  const getAllWarehouse = async () => {
+    WarehouseServices.getAll().then((res) => {
+      const locations = res.data.map((warehouse: Warehouse) => ({
+        latitude: warehouse.location.latitude,
+        longitude: warehouse.location.longitude,
+      }));
+      console.log(locations);
+      setListWarehouse(locations);
+    });
+  };
   // const { fields, append, remove } = useFieldArray({
   //   control,
   //   name: "shipperArea",
@@ -61,6 +73,10 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
       reset(defaultFormValues);
     }
   }, [initForm, reset]);
+
+  useEffect(() => {
+    getAllWarehouse();
+  }, []);
 
   const onSubmit: SubmitHandler<CreateFormFields> = async (data) => {
     //console.log(JSON.stringify(data));
@@ -221,6 +237,7 @@ const CreateForm: React.FC<CreateEditArticleFormProps> = ({
                 onChange={field.onChange}
                 label="Chọn khu vực shipper"
                 multiple={true}
+                AdditionalLocations={listWarehouse} // Truyền danh sách vị trí thêm vào
               />
               {Array.isArray(field.value) && field.value.length > 0 && (
                 <div className="text-sm text-gray-600">

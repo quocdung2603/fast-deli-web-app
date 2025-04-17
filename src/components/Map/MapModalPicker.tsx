@@ -10,6 +10,7 @@ interface SingleMapModalPickerProps {
   label: string;
   multiple?: false;
   maxMarkers?: number;
+  AdditionalLocations?: GeoPoint[];
 }
 
 interface MultiMapModalPickerProps {
@@ -18,6 +19,7 @@ interface MultiMapModalPickerProps {
   label: string;
   multiple: true;
   maxMarkers?: number;
+  AdditionalLocations?: GeoPoint[];
 }
 
 type MapModalPickerProps = SingleMapModalPickerProps | MultiMapModalPickerProps;
@@ -28,6 +30,7 @@ const MapModalPicker: React.FC<MapModalPickerProps> = ({
   label,
   multiple = false,
   maxMarkers = 5,
+  AdditionalLocations = [],
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -52,6 +55,7 @@ const MapModalPicker: React.FC<MapModalPickerProps> = ({
             onChange={onChange as (val: GeoPoint[]) => void}
             multiple={true}
             maxMarkers={maxMarkers}
+            AdditionalLocations={AdditionalLocations as GeoPoint[]}
           />
         ) : (
           <InputMapPicker
@@ -59,6 +63,7 @@ const MapModalPicker: React.FC<MapModalPickerProps> = ({
             onChange={onChange as (val: GeoPoint) => void}
             multiple={false}
             maxMarkers={maxMarkers}
+            AdditionalLocations={AdditionalLocations as GeoPoint[]}
           />
         )}
       </Modal>
