@@ -127,6 +127,7 @@ const UserPage: React.FC = () => {
 
   const getAll = async () => {
     UserServices.getAll().then((res) => {
+      console.log("user list", res.data);
       setListData(res.data);
     });
   };

@@ -233,7 +233,7 @@ const ShipperPage: React.FC = () => {
               ></Marker>
             ))}
             <MapEffect markers={shipperAreaLocation} />
-            {shipperAreaLocation.length >= 3 && (
+            {shipperAreaLocation.length >= 2 && (
               <Polygon
                 positions={shipperAreaLocation.map((pos) => [
                   pos.latitude,
