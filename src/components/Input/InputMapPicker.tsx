@@ -126,7 +126,7 @@ const InputMapPicker: React.FC<MapPickerProps> = ({
           center={center}
           zoom={6}
           scrollWheelZoom={true}
-          style={{ height: "300px", width: "100%" }}
+          style={{ height: "700px", width: "100%" }}
         >
           <TileLayer
             attribution="&copy; OpenStreetMap contributors"
