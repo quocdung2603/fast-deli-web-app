@@ -225,6 +225,7 @@ const ShipperPage: React.FC = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
+
             {shipperAreaLocation.map((pos, index) => (
               <Marker
                 key={index + 0}
@@ -243,6 +244,7 @@ const ShipperPage: React.FC = () => {
                   color: "blue",
                   fillColor: "blue",
                   fillOpacity: 0.3,
+                
                 }}
               />
             )}
