@@ -72,7 +72,9 @@ const MyOrder = () => {
   return (
     <div className="p-5 max-w-6xl mx-auto">
       <h2 className="text-base font-bold mb-5">
-        {t("Client.MyOrder.title", { count: listData.length })}
+        {t("Client.MyOrder.title", {
+          count: listData.filter((item) => item.userId === user?.userId).length,
+        })}
       </h2>
       <div className="flex justify-end m-5">
         <Button onClick={showModal}>{t("Client.MyOrder.addNew")}</Button>
@@ -115,59 +117,61 @@ const MyOrder = () => {
         <p className="text-gray-500 text-sm">{t("Client.MyOrder.noOrder")}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {listData.map((item) => (
-            <div
-              key={item.id}
-              className="border rounded-lg overflow-hidden bg-white shadow-md flex flex-col"
-            >
-              <Link to={`/order-information/${item.id}`} target="_blank">
-                <img
-                  src={`${import.meta.env.VITE_KEY_IMAGEURL}${
-                    item.imageUrls[0]
-                  }`}
-                  alt={`Mã đơn: ${item.orderCode}`}
-                  className="w-full h-36 object-cover"
-                />
-              </Link>
-              <div className="p-4 flex flex-col justify-center items-center">
-                <div className="w-full">
-                  <p className="text-gray-600 text-sm">
-                    {t("Client.MyOrder.status")}:{" "}
-                    <span className="font-bold text-blue-500">
-                      {item.status}
-                    </span>
-                  </p>
-                  <p className="text-gray-600 text-sm">
-                    {t("Client.MyOrder.price")}: {item.deliveryFee.toString()}{" "}
-                    VNĐ
-                  </p>
-                </div>
-                <div className="flex flex-row justify-center items-center w-full">
-                  {(item.status === "waiting" ||
-                    item.status === "canceled") && (
-                    <div className="w-1/2 flex justify-center items-center">
-                      <Button
-                        className="bg-red-500 text-white"
-                        onClick={() => showModalEdit(true, item)}
-                      >
-                        {t("Client.MyOrder.edit")}
-                      </Button>
-                    </div>
-                  )}
-                  {item.status === "waiting" && (
-                    <div className="w-1/2 justify-center items-center">
-                      <Button
-                        className="bg-gray-300 text-white"
-                        onClick={() => showDeleteConfirm(item.id.toString())}
-                      >
-                        {t("Client.MyOrder.cancel")}
-                      </Button>
-                    </div>
-                  )}
+          {listData
+            .filter((item) => item.userId === user?.userId)
+            .map((item) => (
+              <div
+                key={item.id}
+                className="border rounded-lg overflow-hidden bg-white shadow-md flex flex-col"
+              >
+                <Link to={`/order-information/${item.id}`} target="_blank">
+                  <img
+                    src={`${import.meta.env.VITE_KEY_IMAGEURL}${
+                      item.imageUrls[0]
+                    }`}
+                    alt={`Mã đơn: ${item.orderCode}`}
+                    className="w-full h-36 object-cover"
+                  />
+                </Link>
+                <div className="p-4 flex flex-col justify-center items-center">
+                  <div className="w-full">
+                    <p className="text-gray-600 text-sm">
+                      {t("Client.MyOrder.status")}:{" "}
+                      <span className="font-bold text-blue-500">
+                        {item.status}
+                      </span>
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      {t("Client.MyOrder.price")}: {item.deliveryFee.toString()}{" "}
+                      VNĐ
+                    </p>
+                  </div>
+                  <div className="flex flex-row justify-center items-center w-full">
+                    {(item.status === "waiting" ||
+                      item.status === "canceled") && (
+                      <div className="w-1/2 flex justify-center items-center">
+                        <Button
+                          className="bg-red-500 text-white"
+                          onClick={() => showModalEdit(true, item)}
+                        >
+                          {t("Client.MyOrder.edit")}
+                        </Button>
+                      </div>
+                    )}
+                    {item.status === "waiting" && (
+                      <div className="w-1/2 justify-center items-center">
+                        <Button
+                          className="bg-gray-300 text-white"
+                          onClick={() => showDeleteConfirm(item.id.toString())}
+                        >
+                          {t("Client.MyOrder.cancel")}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>
