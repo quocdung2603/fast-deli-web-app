@@ -5,7 +5,6 @@ import confirm from "antd/es/modal/confirm";
 import { useAuth } from "../../../../common/context/AuthContext";
 import { OrderServices } from "../../../../services/Order/OrderServices";
 import { OrderResponseId } from "../../../../types/Order/Order";
-import UpdateOrderForm from "./UpdateOrderForm";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -31,7 +30,7 @@ const MyOrder = () => {
     setIsModalOpen(false);
   };
 
-  const showModalEdit = (isOpen: boolean, data: any) => {
+  const showModalEdit = (isOpen: boolean, data: any) => { 
     setModalEdit({ isOpen, data });
   };
 

@@ -4,6 +4,7 @@ type Warehouse = {
   id: string;
   name: string;
   type: string;
+  address?: string;
   location: GeoPoint;
 };
 

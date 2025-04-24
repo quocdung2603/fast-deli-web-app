@@ -8,6 +8,7 @@ import InputTypeNumber from "../../../../components/Input/InputTypeNumber";
 import { Button, notification, Modal, Spin } from "antd";
 import { OrderServices } from "../../../../services/Order/OrderServices";
 import MapModalViewer from "../../../../components/Map/MapModalViewer";
+import InputTypeSelect from "../../../../components/Input/InputTypeSelect";
 
 interface CreateFormFields extends Order {}
 
@@ -35,6 +36,29 @@ const defaultFormValues: CreateFormFields = {
   locationSender: { latitude: 0, longitude: 0 },
   locationReciver: { latitude: 0, longitude: 0 },
 };
+
+const OrderStatusList = [
+  {
+    value: "waiting",
+    label: "Waiting",
+  },
+  {
+    value: "pending",
+    label: "Pending",
+  },
+  {
+    value: "shipping",
+    label: "Shipping",
+  },
+  {
+    value: "complete",
+    label: "Completed",
+  },
+  {
+    value: "canceled",
+    label: "Canceled",
+  },
+];
 
 const fetchCoordinatesFromAddress = async (address: string) => {
   try {
@@ -176,6 +200,13 @@ const CreateForm: React.FC<CreateFormProps> = ({
             rules={{ required: "Phí giao hàng không được trống" }}
             title="Phí giao hàng"
             placeholder="Nhập phí giao hàng"
+          />
+          <InputTypeSelect
+            title="Trạng thái"
+            name="status"
+            control={control}
+            rules={{ required: "Trạng thái không được trống" }}
+            titleOption={OrderStatusList}
           />
         </div>
       </div>
