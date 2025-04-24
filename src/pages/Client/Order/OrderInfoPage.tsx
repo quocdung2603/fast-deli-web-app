@@ -71,7 +71,7 @@ const columns: TableColumnsType<Tracking> = [
     dataIndex: "status",
     render: (_, record) => {
       if (record.status === "ready") {
-        return <Tag color="green">Đã lấy hàng</Tag>;
+        return <Tag color="green">Sẵn sàng</Tag>;
       } else if (record.status === "shipping") {
         return <Tag color="blue">Đang giao hàng</Tag>;
       } else if (record.status === "delivered") {
@@ -92,7 +92,7 @@ const OrderInfoPage: React.FC = () => {
   const getOrderInfo = async () => {
     const order: OrderResponseInfo = await OrderServices.getById(id!);
     setOrderData(order.data);
-    console.log("order", order.data);
+    console.log("order data", order.data);
 
     const tracking: TrackingResponse = await TrackingServices.getByOrderId(id!);
     setListTracking(tracking.data);
@@ -128,7 +128,7 @@ const OrderInfoPage: React.FC = () => {
         <div className="flex flex-row w-full justify-center space-x-5 bg-white my-10">
           <Card title="THÔNG TIN ĐƠN HÀNG" className="w-1/4 border-none">
             <p>
-              Mã đơn hàng: <strong>{orderData.orderCode}</strong>
+              Mã đơn hàng: <strong>{orderData.id}</strong>
             </p>
             <p>
               Trạng thái hiện tại: <Tag color="blue">{orderData.status}</Tag>

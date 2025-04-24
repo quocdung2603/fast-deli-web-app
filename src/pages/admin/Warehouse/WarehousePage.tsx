@@ -98,17 +98,17 @@ const WarehousePage: React.FC = () => {
       maskClosable: true,
       closable: true,
       onOk() {
-        // WarehouseServices.delete(_id)
-        //   .then(() => {
-        //     notification.success({ message: "Xóa thành công" });
-        //     getAll();
-        //     closeModal();
-        //   })
-        //   .catch(() => {
-        //     notification.error({
-        //       message: "Xóa thất bại ! Kiểm tra lại nha !",
-        //     });
-        //   });
+        WarehouseServices.delete(_id)
+          .then(() => {
+            notification.success({ message: "Xóa thành công" });
+            getAll();
+            closeModal();
+          })
+          .catch(() => {
+            notification.error({
+              message: "Xóa thất bại ! Kiểm tra lại nha !",
+            });
+          });
       },
       cancelText: "Hủy",
     });
@@ -157,11 +157,11 @@ const WarehousePage: React.FC = () => {
             className: "hidden",
           }}
         >
-          {/* <CreateForm
+          <CreateForm
             initForm={modalEdit.data}
             getAll={getAll}
             closeModal={closeModal}
-          /> */}
+          />
         </Modal>
       </div>
       <Table
@@ -173,7 +173,6 @@ const WarehousePage: React.FC = () => {
         }}
         onChange={onChange}
       />
-      
     </div>
   );
 };

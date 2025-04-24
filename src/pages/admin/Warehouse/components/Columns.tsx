@@ -63,7 +63,7 @@ const Columns = (
     dataIndex: "location",
     render: (location: GeoPoint) => (
       <a
-        href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`}
+        href={`https://www.google.com/maps?q=${location.latitude.toString()},${location.longitude.toString()}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-500 underline"
